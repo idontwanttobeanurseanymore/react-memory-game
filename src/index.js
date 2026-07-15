@@ -165,13 +165,17 @@ server.post("/api/memoryboard", async (req, res) => {
 });
 
 //STATIC
-server.use(express.static(path.join(__dirname, "../public")));
+const staticServerPath = path.join(__dirname, "../public");
+server.use(express.static(staticServerPath));
 //FALLBACK
-server.get("/*", (req, res) => {
-  if (!req.path.startsWith("/api")) {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
+server.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
   }
+
+  res.sendFile(path.join(staticServerPath, "index.html"));
 });
+
 //404
 server.use((req, res) => {
   res.status(404).json({
@@ -181,6 +185,6 @@ server.use((req, res) => {
 });
 //LISTEN
 server.listen(port, async () => {
-  console.log(`🚀 Servidor iniciado en ${port}`);
+  console.log(`Servidor iniciado en ${port}`);
   await checkDBConnection();
 });
