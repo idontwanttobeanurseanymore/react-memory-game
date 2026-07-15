@@ -8,8 +8,7 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "vite build --emptyOutDir && git add . && git commit -m \"Deploy new version\" && git push",
-    "build": "vite build"
+    "deploy": "vite build --emptyOutDir && git add . && git commit -m \"Deploy new version\" && git push"
   },
   "dependencies": {
     "cors": "^2.8.6",
