@@ -2,6 +2,11 @@ import express from "express";
 import mysql from "mysql2/promise";
 import cors from "cors";
 import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //CONFIGURACIÓN BD
 const getConexion = async () => {
@@ -40,11 +45,6 @@ server.use(express.json({ limit: "25Mb" }));
 
 //ARRANQUE
 const port = process.env.PORT || 4000;
-
-server.listen(port, async () => {
-  console.log(`🚀 Servidor iniciado en http://localhost:${port}`);
-  await checkDBConnection();
-});
 
 //ENDPOINTS
 
@@ -164,6 +164,14 @@ server.post("/api/memoryboard", async (req, res) => {
   }
 });
 
+//STATIC
+server.use(express.static(path.join(__dirname, "../public")));
+//FALLBACK
+server.get("*", (req, res) => {
+  if (!req.path.startsWith("/api")) {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+  }
+});
 //404
 server.use((req, res) => {
   res.status(404).json({
@@ -171,6 +179,8 @@ server.use((req, res) => {
     message: "Página no encontrada",
   });
 });
-
-//STATIC
-server.use(express.static("./docs"));
+//LISTEN
+server.listen(port, async () => {
+  console.log(`🚀 Servidor iniciado en ${port}`);
+  await checkDBConnection();
+});
