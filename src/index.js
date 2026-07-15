@@ -68,9 +68,11 @@ server.get("/api/memoryboard", async (req, res) => {
       data: results,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
-      message: "Error al obtener ranking",
+      message: error.message,
     });
   } finally {
     if (conexion) await conexion.end();
@@ -151,9 +153,10 @@ server.post("/api/memoryboard", async (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
-      message: "Error al guardar la partida",
+      message: error.message,
     });
   } finally {
     if (conexion) await conexion.end();
