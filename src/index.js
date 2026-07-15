@@ -1,6 +1,7 @@
 import express from "express";
 import mysql from "mysql2/promise";
 import cors from "cors";
+import fs from "fs";
 import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -17,7 +18,7 @@ const getConexion = async () => {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_SCHEMA,
     ssl: {
-      ca: fs.readFileSync("ca.pem"),
+      rejectUnauthorized: false,
     },
   };
 
