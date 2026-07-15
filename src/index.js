@@ -17,7 +17,7 @@ const getConexion = async () => {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_SCHEMA,
     ssl: {
-      rejectUnauthorized: true,
+      ca: fs.readFileSync("ca.pem"),
     },
   };
 
@@ -47,10 +47,6 @@ server.use(express.json({ limit: "25Mb" }));
 const port = process.env.PORT || 4000;
 
 //ENDPOINTS
-
-server.get("/", (req, res) => {
-  res.send("API Memory Game OK");
-});
 
 //GET RANKING
 server.get("/api/memoryboard", async (req, res) => {
