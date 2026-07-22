@@ -135,6 +135,42 @@ server.post("/api/memoryboard", async (req, res) => {
 
     conexion = await getConexion();
 
+    const checkQuery = `
+      SELECT id FROM game_ranking
+      WHERE player_name = ?
+        AND game_moves = ?
+        AND game_time = ?
+        AND game_date = ?
+        AND game_pairs = ?
+        AND difficulty = ?
+      LIMIT 1;
+    `;
+
+    const [existing] = await conexion.execute(checkQuery, [
+      player_name,
+      game_moves,
+      game_time,
+      formattedDate,
+      game_pairs,
+      difficulty,
+    ]);
+
+    if (existing && existing.length > 0) {
+      return res.status(200).json({
+        success: true,
+        message: "El resultado ya existe en la base de datos",
+        data: {
+          id: existing[0].id,
+          player_name,
+          game_moves,
+          game_time,
+          game_date: formattedDate,
+          game_pairs,
+          difficulty,
+        },
+      });
+    }
+
     const insertQuery = `
       INSERT INTO game_ranking
       (player_name, game_moves, game_time, game_date, game_pairs, difficulty)
@@ -172,6 +208,69 @@ server.post("/api/memoryboard", async (req, res) => {
     });
   } finally {
     if (conexion) await conexion.end();
+  }
+});
+
+// HELPER PARA LIMPIAR BD (MANTIENE SOLO LOS 10 MEJORES POR NIVEL)
+const runDBCleanup = async () => {
+  let conexion;
+  try {
+    conexion = await getConexion();
+
+    const [difficulties] = await conexion.query(
+      "SELECT DISTINCT difficulty FROM game_ranking"
+    );
+
+    const idsToKeep = [];
+
+    for (const diffObj of difficulties) {
+      const diffName = diffObj.difficulty;
+      if (!diffName) continue;
+
+      const [topRecords] = await conexion.execute(
+        `SELECT id FROM game_ranking 
+         WHERE LOWER(difficulty) = LOWER(?) 
+         ORDER BY game_moves ASC, game_time ASC, game_date ASC, id ASC 
+         LIMIT 10`,
+        [diffName]
+      );
+
+      topRecords.forEach((row) => idsToKeep.push(row.id));
+    }
+
+    let deletedRows = 0;
+
+    if (idsToKeep.length > 0) {
+      const placeholders = idsToKeep.map(() => "?").join(",");
+      const deleteQuery = `DELETE FROM game_ranking WHERE id NOT IN (${placeholders})`;
+      const [result] = await conexion.execute(deleteQuery, idsToKeep);
+      deletedRows = result.affectedRows;
+    }
+
+    console.log(`🧹 Limpieza de BD realizada: ${deletedRows} partidas eliminadas.`);
+    return deletedRows;
+  } catch (error) {
+    console.error("❌ Error en la limpieza de la BD:", error.message);
+    throw error;
+  } finally {
+    if (conexion) await conexion.end();
+  }
+};
+
+// DELETE GAME RANKING (MANTIENE SOLO TOP 10 POR NIVEL)
+server.delete(["/api/memoryboard", "/api/memoryboard/cleanup"], async (req, res) => {
+  try {
+    const deletedRows = await runDBCleanup();
+    res.status(200).json({
+      success: true,
+      message: "Limpieza de base de datos realizada. Se conservaron los 10 mejores resultados por nivel.",
+      deletedRows,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 });
 

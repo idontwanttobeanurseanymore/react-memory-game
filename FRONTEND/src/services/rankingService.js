@@ -4,6 +4,34 @@ const API_URL = import.meta.env.PROD
   : "http://localhost:4000";
 
 const PENDING_KEY = "memory_game_pending_uploads";
+const LAST_LS_CLEANUP_KEY = "memory_game_last_ls_cleanup";
+const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+
+const checkMonthlyLSCleanup = () => {
+  try {
+    const lastCleanup = localStorage.getItem(LAST_LS_CLEANUP_KEY);
+    const now = Date.now();
+
+    if (lastCleanup) {
+      const lastDate = new Date(lastCleanup).getTime();
+      if (!isNaN(lastDate) && now - lastDate >= ONE_MONTH_MS) {
+        console.log("🧹 Realizando limpieza mensual de LocalStorage...");
+        
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith(STORAGE_KEY) || key === PENDING_KEY) {
+            localStorage.removeItem(key);
+          }
+        });
+
+        localStorage.setItem(LAST_LS_CLEANUP_KEY, new Date().toISOString());
+      }
+    } else {
+      localStorage.setItem(LAST_LS_CLEANUP_KEY, new Date().toISOString());
+    }
+  } catch (err) {
+    console.error("Error en la limpieza mensual de LocalStorage:", err);
+  }
+};
 
 const getValidIsoDate = (dateVal) => {
   if (!dateVal) return new Date().toISOString();
@@ -13,6 +41,7 @@ const getValidIsoDate = (dateVal) => {
 
 export const rankingService = {
   getRanking: async (difficultyName) => {
+    checkMonthlyLSCleanup();
     const storageKey = `${STORAGE_KEY}_${difficultyName.toUpperCase()}`;
 
     try {
@@ -66,11 +95,21 @@ export const rankingService = {
       startTime: validIsoDate,
     };
 
-    const updatedRanking = [...currentRanking, newEntry]
-      .sort((a, b) => a.moves - b.moves || a.time - b.time)
-      .slice(0, 10);
+    const isDuplicateLocal = currentRanking.some(
+      (item) =>
+        item.name === playerName &&
+        item.moves === moves &&
+        item.time === time &&
+        item.startTime === validIsoDate
+    );
 
-    localStorage.setItem(storageKey, JSON.stringify(updatedRanking));
+    if (!isDuplicateLocal) {
+      const updatedRanking = [...currentRanking, newEntry]
+        .sort((a, b) => a.moves - b.moves || a.time - b.time)
+        .slice(0, 10);
+
+      localStorage.setItem(storageKey, JSON.stringify(updatedRanking));
+    }
 
     // Enviar a backend
     try {
@@ -98,7 +137,12 @@ export const rankingService = {
       // Guardar en lista de pendientes para reintentar al reconectar
       const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]");
       const alreadyPending = pending.some(
-        (p) => p.startTime === startTime && p.playerName === playerName,
+        (p) =>
+          p.startTime === validIsoDate &&
+          p.playerName === playerName &&
+          p.moves === moves &&
+          p.time === time &&
+          p.difficultyName === difficultyName,
       );
       if (!alreadyPending) {
         pending.push({ difficultyName, playerName, moves, time, startTime: validIsoDate, pairs });
@@ -112,10 +156,24 @@ export const rankingService = {
     const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]");
     if (pending.length === 0) return;
 
-    console.log(`🔄 Intentando subir ${pending.length} partidas pendientes...`);
+    // Eliminar duplicados de la lista de pendientes antes de procesar
+    const uniquePending = [];
+    for (const item of pending) {
+      const isDup = uniquePending.some(
+        (u) =>
+          u.playerName === item.playerName &&
+          u.moves === item.moves &&
+          u.time === item.time &&
+          u.startTime === item.startTime &&
+          u.difficultyName === item.difficultyName
+      );
+      if (!isDup) uniquePending.push(item);
+    }
+
+    console.log(`🔄 Intentando subir ${uniquePending.length} partidas pendientes...`);
     const stillPending = [];
 
-    for (const entry of pending) {
+    for (const entry of uniquePending) {
       try {
         const res = await fetch(`${API_URL}/api/memoryboard`, {
           method: "POST",

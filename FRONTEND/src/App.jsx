@@ -47,16 +47,6 @@ export default function App() {
     }
 
     if (difficultyToUse && difficultyToUse.name) {
-      const gamePairs = difficultyToUse.cards.length;
-      await rankingService.saveRanking(
-        difficultyToUse.name,
-        playerName || "Anonymous",
-        count,
-        time,
-        gameStartTime || startTime,
-        gamePairs,
-      );
-
       setGameStats({ count, time });
       setDifficulty(difficultyToUse);
     }
