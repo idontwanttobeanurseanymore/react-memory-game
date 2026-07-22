@@ -105,7 +105,7 @@ export default function Ranking({
           <div className="actions">
             <Button
               onBtnClick={() => setRankingMode(MODES.GLOBAL)}
-              text="SHOW All"
+              text="SHOW ALL"
               btnName="viewAllBtn"
             />
             {handleReset && (
