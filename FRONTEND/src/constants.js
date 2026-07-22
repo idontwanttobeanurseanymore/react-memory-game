@@ -29,7 +29,10 @@ export const DIFFICULTIES = {
 };
 
 export const getBoardConfig = (difficulty) => {
-  const config = DIFFICULTIES[difficulty];
+  let config = DIFFICULTIES[difficulty];
+  if (!config && typeof difficulty === "object" && difficulty !== null) {
+    config = difficulty;
+  }
   if (!config) return null;
   const size = config.grid.split('x').reduce((a, b) => parseInt(a) * parseInt(b), 1);
   return {

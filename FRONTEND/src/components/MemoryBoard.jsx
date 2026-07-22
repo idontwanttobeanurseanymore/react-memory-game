@@ -11,6 +11,13 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
   const difficultyConfig = typeof difficulty === 'string' ? DIFFICULTIES[difficulty] : difficulty;
   const gridClass = difficultyConfig ? `grid-${difficultyConfig.grid}` : '';
   const [hasSaved, setHasSaved] = useState(false);
+  const [currentStartTime, setCurrentStartTime] = useState(startTime || new Date().toISOString());
+
+  useEffect(() => {
+    if (startTime) {
+      setCurrentStartTime(startTime);
+    }
+  }, [startTime]);
 
   const {
     cards,
@@ -28,6 +35,12 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
     selectCard
   } = useMemoryGame(difficulty);
 
+  const handlePlayAgain = () => {
+    setHasSaved(false);
+    setCurrentStartTime(new Date().toISOString());
+    handleReset();
+  };
+
   useEffect(() => {
     startGame();
   }, [startGame]);
@@ -41,11 +54,11 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
         playerName || "Anonymous",
         count,
         elapsedTime,
-        startTime,
+        currentStartTime,
         gamePairs
       );
     }
-  }, [result, difficultyConfig, hasSaved, playerName, count, elapsedTime, startTime]);
+  }, [result, difficultyConfig, hasSaved, playerName, count, elapsedTime, currentStartTime]);
 
   return (
     <>
@@ -72,7 +85,7 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
         <div className="resultSection">
           <Message timeout={timeout} />
           <div className="resultButtons">
-            <Button onBtnClick={() => { setHasSaved(false); handleReset(); }} text="PLAY AGAIN" btnName="resetBtn" />
+            <Button onBtnClick={handlePlayAgain} text="PLAY AGAIN" btnName="resetBtn" />
             <Button onBtnClick={onBackToLanding} text="CHOOSE LEVEL" btnName="chooseLevelTimeoutBtn" />
           </div>
         </div>
@@ -82,8 +95,8 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
         <div className="resultSection">
           <Message result={result} count={count} points={points} time={elapsedTime}/>
           <div className="resultButtons">
-            <Button onBtnClick={() => { setHasSaved(false); handleReset(); }} text="PLAY AGAIN" btnName="resetBtn" />
-            <Button onBtnClick={() => onShowRanking(count, elapsedTime, difficulty, startTime)} text="SHOW MY RANKING" btnName="rankingBtn" />
+            <Button onBtnClick={handlePlayAgain} text="PLAY AGAIN" btnName="resetBtn" />
+            <Button onBtnClick={() => onShowRanking(count, elapsedTime, difficulty, currentStartTime)} text="SHOW MY RANKING" btnName="rankingBtn" />
           </div>
         </div>
       )}

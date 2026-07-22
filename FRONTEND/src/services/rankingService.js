@@ -84,6 +84,9 @@ export const rankingService = {
   saveRanking: async (difficultyName, playerName, moves, time, startTime, pairs) => {
     const storageKey = `${STORAGE_KEY}_${difficultyName.toUpperCase()}`;
 
+    // Intentar sincronizar partidas pendientes previas
+    rankingService.syncPendingToBackend().catch(() => {});
+
     const currentRanking = await rankingService.getRanking(difficultyName);
 
     const validIsoDate = getValidIsoDate(startTime);
@@ -201,3 +204,9 @@ export const rankingService = {
     localStorage.setItem(PENDING_KEY, JSON.stringify(stillPending));
   },
 };
+
+if (typeof window !== "undefined") {
+  window.addEventListener("online", () => {
+    rankingService.syncPendingToBackend();
+  });
+}

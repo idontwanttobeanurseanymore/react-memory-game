@@ -40,13 +40,19 @@ export default function App() {
   const handleShowRanking = async (count, time, finishedDifficulty, gameStartTime) => {
     let difficultyToUse = finishedDifficulty || difficulty;
 
-    if (typeof difficultyToUse === "string") {
-      difficultyToUse = Object.values(DIFFICULTIES).find(
-        (d) => d.name.toUpperCase() === difficultyToUse.toUpperCase(),
+    if (typeof difficultyToUse === "object" && difficultyToUse !== null) {
+      const match = Object.entries(DIFFICULTIES).find(
+        ([key, d]) => d.name.toUpperCase() === difficultyToUse.name?.toUpperCase()
       );
+      if (match) difficultyToUse = match[0];
+    } else if (typeof difficultyToUse === "string") {
+      const match = Object.entries(DIFFICULTIES).find(
+        ([key, d]) => key.toUpperCase() === difficultyToUse.toUpperCase() || d.name.toUpperCase() === difficultyToUse.toUpperCase()
+      );
+      if (match) difficultyToUse = match[0];
     }
 
-    if (difficultyToUse && difficultyToUse.name) {
+    if (difficultyToUse) {
       setGameStats({ count, time });
       setDifficulty(difficultyToUse);
     }
@@ -67,6 +73,8 @@ export default function App() {
     setView(GAME_VIEWS.LANDING);
   };
 
+  const currentDifficultyObj = typeof difficulty === "string" ? DIFFICULTIES[difficulty] : difficulty;
+
   return (
     <main>
       <h1>Memory Game</h1>
@@ -80,7 +88,7 @@ export default function App() {
 
       {view === GAME_VIEWS.GAME && difficulty && (
         <MemoryBoard
-          key={`${difficulty.name}-${gameKey}`}
+          key={`${typeof difficulty === "string" ? difficulty : difficulty?.name}-${gameKey}`}
           difficulty={difficulty}
           onBackToLanding={handleBackToLanding}
           onShowRanking={handleShowRanking}
@@ -91,14 +99,14 @@ export default function App() {
 
       {view === GAME_VIEWS.RANKING && (
         <Ranking
-          key={difficulty?.name}
+          key={currentDifficultyObj?.name}
           onBackToBoard={difficulty ? () => setView(GAME_VIEWS.GAME) : null}
           onBackToLanding={handleBackToLanding}
           handleReset={difficulty ? handlePlayAgain : undefined}
           currentPlayerName={playerName}
           currentMoves={gameStats.count}
           currentTime={gameStats.time}
-          difficulty={difficulty}
+          difficulty={currentDifficultyObj}
         />
       )}
     </main>
