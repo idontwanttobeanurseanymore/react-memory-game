@@ -3,6 +3,8 @@ const API_URL = import.meta.env.PROD
   ? "https://martamao-memory-game.onrender.com"
   : "http://localhost:4000";
 
+const PENDING_KEY = "memory_game_pending_uploads";
+
 export const rankingService = {
   getRanking: async (difficultyName) => {
     const storageKey = `${STORAGE_KEY}_${difficultyName.toUpperCase()}`;
@@ -42,7 +44,8 @@ export const rankingService = {
       return JSON.parse(localStorage.getItem(storageKey) || "[]");
     }
   },
-  saveRanking: async (difficultyName, playerName, moves, time, startTime) => {
+
+  saveRanking: async (difficultyName, playerName, moves, time, startTime, pairs) => {
     const storageKey = `${STORAGE_KEY}_${difficultyName.toUpperCase()}`;
 
     const currentRanking = await rankingService.getRanking(difficultyName);
@@ -62,7 +65,7 @@ export const rankingService = {
 
     // Enviar a backend
     try {
-      await fetch(`${API_URL}/api/memoryboard`, {
+      const res = await fetch(`${API_URL}/api/memoryboard`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,12 +75,62 @@ export const rankingService = {
           game_moves: moves,
           game_time: time,
           game_date: new Date(startTime).toISOString(),
-          game_pairs: 0,
+          game_pairs: pairs,
           difficulty: difficultyName,
         }),
       });
+
+      if (!res.ok) {
+        throw new Error(`Error en servidor (${res.status})`);
+      }
     } catch (err) {
       console.error("Error guardando en backend:", err);
+
+      // Guardar en lista de pendientes para reintentar al reconectar
+      const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]");
+      const alreadyPending = pending.some(
+        (p) => p.startTime === startTime && p.playerName === playerName,
+      );
+      if (!alreadyPending) {
+        pending.push({ difficultyName, playerName, moves, time, startTime, pairs });
+        localStorage.setItem(PENDING_KEY, JSON.stringify(pending));
+        console.warn("⚠️ Partida guardada como pendiente. Se reintentará al reconectar.");
+      }
     }
+  },
+
+  syncPendingToBackend: async () => {
+    const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]");
+    if (pending.length === 0) return;
+
+    console.log(`🔄 Intentando subir ${pending.length} partidas pendientes...`);
+    const stillPending = [];
+
+    for (const entry of pending) {
+      try {
+        const res = await fetch(`${API_URL}/api/memoryboard`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            player_name: entry.playerName,
+            game_moves: entry.moves,
+            game_time: entry.time,
+            game_date: new Date(entry.startTime).toISOString(),
+            game_pairs: entry.pairs,
+            difficulty: entry.difficultyName,
+          }),
+        });
+
+        if (!res.ok) {
+          stillPending.push(entry);
+        } else {
+          console.log(`✅ Partida pendiente subida: ${entry.playerName} (${entry.difficultyName})`);
+        }
+      } catch {
+        stillPending.push(entry); // Sin conexión, mantener como pendiente
+      }
+    }
+
+    localStorage.setItem(PENDING_KEY, JSON.stringify(stillPending));
   },
 };

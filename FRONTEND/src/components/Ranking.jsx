@@ -108,7 +108,7 @@ export default function Ranking({
               text="SHOW All"
               btnName="viewAllBtn"
             />
-            {onBackToBoard && (
+            {handleReset && (
               <Button
                 onBtnClick={handleReset}
                 text="PLAY AGAIN"
@@ -131,6 +131,13 @@ export default function Ranking({
                 onBtnClick={() => setRankingMode(MODES.PLAYER)}
                 text="SHOW MY RANKING"
                 btnName="viewAllBtn"
+              />
+            )}
+            {handleReset && (
+              <Button
+                onBtnClick={handleReset}
+                text="PLAY AGAIN"
+                btnName="playAgainGlobalBtn"
               />
             )}
             <Button

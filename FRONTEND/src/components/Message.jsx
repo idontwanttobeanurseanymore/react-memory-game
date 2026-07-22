@@ -6,7 +6,7 @@ export default function Message({ result, time, timeout, count, points }) {
   let textMessage;
   if (time < 60) {
     textMessage = "In less than a minute!";
-  } else if (time => 60) {
+  } else if (time >= 60) {
     textMessage = "Well done!";
   }
   return <p className="result">{textMessage}</p>;

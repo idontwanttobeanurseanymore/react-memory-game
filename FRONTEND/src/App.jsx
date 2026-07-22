@@ -1,5 +1,5 @@
 import "./App.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
 import Ranking from "./components/Ranking";
 import MemoryBoard from "./components/MemoryBoard";
@@ -12,6 +12,23 @@ export default function App() {
   const [difficulty, setDifficulty] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [gameStats, setGameStats] = useState({ count: 0, time: 0 });
+  const [gameKey, setGameKey] = useState(0);
+
+  useEffect(() => {
+    const preloadRankings = async () => {
+      try {
+        await rankingService.syncPendingToBackend();
+        const difficulties = Object.values(DIFFICULTIES);
+        await Promise.all(
+          difficulties.map((diff) => rankingService.getRanking(diff.name))
+        );
+        console.log("✅ Rankings precargados al arranque");
+      } catch (error) {
+        console.warn("⚠️ No se pudieron precargar rankings:", error);
+      }
+    };
+    preloadRankings();
+  }, []);
 
   const handleStartGame = (name, selectedDifficulty) => {
     setPlayerName(name);
@@ -30,12 +47,14 @@ export default function App() {
     }
 
     if (difficultyToUse && difficultyToUse.name) {
+      const gamePairs = difficultyToUse.cards.length;
       await rankingService.saveRanking(
         difficultyToUse.name,
         playerName || "Anonymous",
         count,
         time,
         startTime,
+        gamePairs,
       );
 
       setGameStats({ count, time });
@@ -43,6 +62,12 @@ export default function App() {
     }
 
     setView(GAME_VIEWS.RANKING);
+  };
+
+  const handlePlayAgain = () => {
+    setStartTime(new Date().toISOString());
+    setGameKey((prev) => prev + 1);
+    setView(GAME_VIEWS.GAME);
   };
 
   const handleBackToLanding = () => {
@@ -65,7 +90,7 @@ export default function App() {
 
       {view === GAME_VIEWS.GAME && difficulty && (
         <MemoryBoard
-          key={difficulty.name}
+          key={`${difficulty.name}-${gameKey}`}
           difficulty={difficulty}
           onBackToLanding={handleBackToLanding}
           onShowRanking={handleShowRanking}
@@ -79,6 +104,7 @@ export default function App() {
           key={difficulty?.name}
           onBackToBoard={difficulty ? () => setView(GAME_VIEWS.GAME) : null}
           onBackToLanding={handleBackToLanding}
+          handleReset={difficulty ? handlePlayAgain : undefined}
           currentPlayerName={playerName}
           currentMoves={gameStats.count}
           currentTime={gameStats.time}
