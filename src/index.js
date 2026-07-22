@@ -136,7 +136,7 @@ server.post("/api/memoryboard", async (req, res) => {
     conexion = await getConexion();
 
     const checkQuery = `
-      SELECT id FROM game_ranking
+      SELECT 1 FROM game_ranking
       WHERE player_name = ?
         AND game_moves = ?
         AND game_time = ?
@@ -160,7 +160,6 @@ server.post("/api/memoryboard", async (req, res) => {
         success: true,
         message: "El resultado ya existe en la base de datos",
         data: {
-          id: existing[0].id,
           player_name,
           game_moves,
           game_time,
