@@ -5,6 +5,12 @@ const API_URL = import.meta.env.PROD
 
 const PENDING_KEY = "memory_game_pending_uploads";
 
+const getValidIsoDate = (dateVal) => {
+  if (!dateVal) return new Date().toISOString();
+  const d = new Date(dateVal);
+  return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+};
+
 export const rankingService = {
   getRanking: async (difficultyName) => {
     const storageKey = `${STORAGE_KEY}_${difficultyName.toUpperCase()}`;
@@ -23,6 +29,7 @@ export const rankingService = {
       const filtered = data.data
         .filter(
           (item) =>
+            item.difficulty &&
             item.difficulty.toLowerCase() === difficultyName.toLowerCase(),
         )
         .map((item) => ({
@@ -50,11 +57,13 @@ export const rankingService = {
 
     const currentRanking = await rankingService.getRanking(difficultyName);
 
+    const validIsoDate = getValidIsoDate(startTime);
+
     const newEntry = {
       name: playerName,
       moves,
       time,
-      startTime,
+      startTime: validIsoDate,
     };
 
     const updatedRanking = [...currentRanking, newEntry]
@@ -74,7 +83,7 @@ export const rankingService = {
           player_name: playerName,
           game_moves: moves,
           game_time: time,
-          game_date: new Date(startTime).toISOString(),
+          game_date: validIsoDate,
           game_pairs: pairs,
           difficulty: difficultyName,
         }),
@@ -92,7 +101,7 @@ export const rankingService = {
         (p) => p.startTime === startTime && p.playerName === playerName,
       );
       if (!alreadyPending) {
-        pending.push({ difficultyName, playerName, moves, time, startTime, pairs });
+        pending.push({ difficultyName, playerName, moves, time, startTime: validIsoDate, pairs });
         localStorage.setItem(PENDING_KEY, JSON.stringify(pending));
         console.warn("⚠️ Partida guardada como pendiente. Se reintentará al reconectar.");
       }
@@ -115,7 +124,7 @@ export const rankingService = {
             player_name: entry.playerName,
             game_moves: entry.moves,
             game_time: entry.time,
-            game_date: new Date(entry.startTime).toISOString(),
+            game_date: getValidIsoDate(entry.startTime),
             game_pairs: entry.pairs,
             difficulty: entry.difficultyName,
           }),

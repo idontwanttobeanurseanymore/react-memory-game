@@ -37,7 +37,7 @@ export default function App() {
     setView(GAME_VIEWS.GAME);
   };
 
-  const handleShowRanking = async (count, time, finishedDifficulty) => {
+  const handleShowRanking = async (count, time, finishedDifficulty, gameStartTime) => {
     let difficultyToUse = finishedDifficulty || difficulty;
 
     if (typeof difficultyToUse === "string") {
@@ -53,7 +53,7 @@ export default function App() {
         playerName || "Anonymous",
         count,
         time,
-        startTime,
+        gameStartTime || startTime,
         gamePairs,
       );
 

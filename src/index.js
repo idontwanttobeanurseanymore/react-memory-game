@@ -56,7 +56,7 @@ server.get("/api/memoryboard", async (req, res) => {
     conexion = await getConexion();
 
     const query = `
-      SELECT player_name, game_moves, game_time, difficulty
+      SELECT player_name, game_moves, game_time, game_date, game_pairs, difficulty
       FROM game_ranking
       ORDER BY difficulty, game_moves ASC, game_time ASC;
     `;
@@ -121,6 +121,18 @@ server.post("/api/memoryboard", async (req, res) => {
       });
     }
 
+    let formattedDate;
+    try {
+      const d = new Date(game_date);
+      if (isNaN(d.getTime())) {
+        formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      } else {
+        formattedDate = d.toISOString().slice(0, 19).replace('T', ' ');
+      }
+    } catch {
+      formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    }
+
     conexion = await getConexion();
 
     const insertQuery = `
@@ -133,7 +145,7 @@ server.post("/api/memoryboard", async (req, res) => {
       player_name,
       game_moves,
       game_time,
-      game_date,
+      formattedDate,
       game_pairs,
       difficulty,
     ]);

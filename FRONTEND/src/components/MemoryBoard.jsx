@@ -1,14 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Card from "./Card";
 import Button from "./Button";
 import Message from "./Message";
 import Counter from "./Counter";
 import { useMemoryGame } from "../hooks/useMemoryGame";
 import { DIFFICULTIES } from "../constants";
+import { rankingService } from "../services/rankingService";
 
 export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking, playerName, startTime }) {
   const difficultyConfig = typeof difficulty === 'string' ? DIFFICULTIES[difficulty] : difficulty;
   const gridClass = difficultyConfig ? `grid-${difficultyConfig.grid}` : '';
+  const [hasSaved, setHasSaved] = useState(false);
 
   const {
     cards,
@@ -29,6 +31,21 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
   useEffect(() => {
     startGame();
   }, [startGame]);
+
+  useEffect(() => {
+    if (result && difficultyConfig && !hasSaved) {
+      setHasSaved(true);
+      const gamePairs = difficultyConfig.cards ? difficultyConfig.cards.length : 8;
+      rankingService.saveRanking(
+        difficultyConfig.name,
+        playerName || "Anonymous",
+        count,
+        elapsedTime,
+        startTime,
+        gamePairs
+      );
+    }
+  }, [result, difficultyConfig, hasSaved, playerName, count, elapsedTime, startTime]);
 
   return (
     <>
@@ -55,7 +72,7 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
         <div className="resultSection">
           <Message timeout={timeout} />
           <div className="resultButtons">
-            <Button onBtnClick={handleReset} text="PLAY AGAIN" btnName="resetBtn" />
+            <Button onBtnClick={() => { setHasSaved(false); handleReset(); }} text="PLAY AGAIN" btnName="resetBtn" />
             <Button onBtnClick={onBackToLanding} text="CHOOSE LEVEL" btnName="chooseLevelTimeoutBtn" />
           </div>
         </div>
@@ -65,7 +82,7 @@ export default function MemoryBoard({ difficulty, onBackToLanding, onShowRanking
         <div className="resultSection">
           <Message result={result} count={count} points={points} time={elapsedTime}/>
           <div className="resultButtons">
-            <Button onBtnClick={handleReset} text="PLAY AGAIN" btnName="resetBtn" />
+            <Button onBtnClick={() => { setHasSaved(false); handleReset(); }} text="PLAY AGAIN" btnName="resetBtn" />
             <Button onBtnClick={() => onShowRanking(count, elapsedTime, difficulty, startTime)} text="SHOW MY RANKING" btnName="rankingBtn" />
           </div>
         </div>
