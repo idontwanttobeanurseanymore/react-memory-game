@@ -33,3 +33,5 @@ especificacionesIA.md
 
 .draft.sql
 .env
+*.md
+!README.md
