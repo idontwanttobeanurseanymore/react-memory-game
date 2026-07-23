@@ -1,27 +1,46 @@
 # 🃏 Memory Game - Encontrar Parejas de Cartas
 
-Este es mi primer proyecto utilizando **React**, como parte del contenido del Módulo 3 del Bootcamp en Desarrollo Web Full Stack.
+Imagina este proyecto como una **máquina recreativa arcade** de juego de memoria visual de buscar parejas de cartas en tableros de distintas dificultades.
 
-El diseño y la estructura inicial del proyecto se basaron en una propuesta de **Adalab**, pero el diseño retro actual es una iniciativa propia, buscando una estética más personal y divertida. El backend se encuentra actualmente en desarrollo, pero estará disponible muy muy muy pronto.
-
-Se trata de un juego clásico de encontrar parejas de cartas en tableros de distintas dificultades.
+El objetivo del jugador es voltear cartas de dos en dos hasta **encontrar todas las parejas** del tablero en la menor cantidad de movimientos y en el menor tiempo posible, y competir por entrar en la tabla de **mejores puntuaciones**.
 
 **Te recomiendo que pruebes el proyecto, ¡te enganchará!**
 
-🔗 https://idontwanttobeanurseanymore.github.io/react-memory-game/
+🔗 https://martamao-memory-game.onrender.com/ 
 
 ¿Serás capaz de encontrar todas las parejas en el menor tiempo posible y clasificarte en el **TOP 5**?
 
 ---
 
-## ✨ Características Principales 
+## ✨ Funcionalidades y Características Principales
 
-- **🃏 Tablero**: El reto clásico de encontrar parejas.
-- **⚡ Niveles**: Existen 4 niveles de dificultad.
-- **📱 Diseño Responsive**: Experiencia optimizada para móviles y escritorio.
-- **🎮 Estética Retro**: Inspirado en las consolas de 8 y 16 bits, con fuentes pixeladas y colores vibrantes.
-- **🚀 Pantalla de Inicio**: Landing page personalizada con entrada de nombre de usuario.
-- **🏆 Sistema de Ranking**: Top 5 local (guardado en `localStorage`) que registra movimientos y tiempo.
+La aplicación ha sido desarrollada con un **diseño responsive** para poder disfrutar del juego en cualquier pantalla y un **diseño retro** con el objetivo de hacer un guiño a los años 90, etapa en la que está inspirada la aplicación y buscando una estética más personal y divertida.
+
+### **🚀 Pantalla de Inicio**
+
+- **Identificación** del Jugador: Introduces 3 letras (ejemplo: MRT) que serán tu nombre de usuario. Identificación con usuario y contraseña en desarrollo para mejorar el sistema de ranking y la seguridad general de la aplicación.
+- **⚡ Niveles**
+  - 🟢 Easy (Fácil): Tablero 4x4 (8 parejas de emoticonos).
+  - 🟡 Medium (Medio): Tablero 4x4 (12 parejas temáticas).
+  - 🔴 Hard (Difícil): Tablero 6x6 (18 parejas).
+  - 🟣 Expert (Experto): Tablero 6x6 (18 parejas de mayor dificultad visual).
+- **🏆 Leaderboard**: Permite ver las mejores puntuaciones de todos los niveles sin necesidad de jugar una partida.
+
+### **🃏 Tablero** (Memory Board)
+
+  - Muestra tus **movimientos** (cada intento de 2 cartas) y un **cronómetro** en segundos.
+  - Interacción: Haces clic en una carta para destaparla y luego en otra. Si coinciden, se quedan fijas; si fallas, se vuelven a ocultar tras 1 segundo.
+  - **Finalización de la partida**:
+    - Ganar: Encuentras todas las parejas.
+    - Perder (Tiempo agotado): Si el cronómetro llega a 3 minutos (180 segundos), la partida termina como perdida. Las partidas perdidas no se guardan en el ranking.
+- **Pantalla de Rankings**:
+  - Vista Individual (SHOW MY RANKING): Muestra el resumen de tu última partida jugada y la tabla con los 5 mejores jugadores de ese nivel concreto.
+  - Vista Global (SHOW ALL): Muestra de un vistazo las tablas del Top 5 de todos los niveles.
+- **Rejugabilidad** (PLAY AGAIN / CHOOSE LEVEL): Botones para volver a jugar inmediatamente al mismo nivel con las cartas rebarajadas o volver al inicio para cambiar de nivel o jugador.
+
+### **Modo Sin Conexión** (Offline Support)
+
+- Si la base de datos falla, el juego sigue funcionando guardando tus resultados en la memoria de tu propio navegador (LocalStorage). En cuanto vuelvas a tener conexión, las partidas pendientes se suben solas.
 
 ---
 
@@ -31,7 +50,9 @@ Se trata de un juego clásico de encontrar parejas de cartas en tableros de dist
 - **Vite 8**: Desarrollo y construcción ultra-rápida.
 - **SASS (SCSS)**: Estilos modulares y avanzados.
 - **JavaScript (ES6+)**: Lógica del juego y gestión de estado.
-- **AI Agents**: **Gemini CLI**, **Copilot CLI** y **Codex** actuando como copilotos activos en el desarrollo.
+- **AI Agents**: **Gemini CLI**, **Copilot CLI** y **Codex**
+- **Aiven**: base de datos MySQL
+- **Render**: servidor Express.
 
 ---
 
@@ -74,13 +95,19 @@ src/
 
 1. Clona el repositorio.
 2. Instala las dependencias: `npm install`
-3. Arranca el proyecto: `npm run dev`
+4. Arranca el servidor: `npm run dev`
+5. Arranca el proyecto:
+   ```
+   cd frontend
+   npm i
+   npm run dev
+   ```
 
 ---
 
 ## 🔮 Futuras funcionalidades
 
-- **Backend (Express + MySQL)**: Persistencia global del ranking y autenticación simple.
+- **Autenticación**
 - **Sonidos**: Efectos de sonido retro para mejorar la inmersión.
 
 ---
@@ -96,12 +123,12 @@ Este proyecto ha sido desarrollado con la ayuda de **Gemini CLI**, **Copilot CLI
 
 ## 🏗️ Estado del proyecto y Agradecimientos
 
-Este proyecto es un "work in progress" constante. Actualmente estoy aprendiendo a construir el backend para conectarlo y hacerlo 100% funcional y persistente. Se aceptan comentarios, sugerencias y PRs.
+Este proyecto es un "work in progress" constante. Se aceptan comentarios, sugerencias y PRs.
 
 
 **Agradecimientos:**
 - A **Iván**, mi profesor, por su guía y su infinita curiosidad.
-- A **Adalab**, por abrirme las puertas del mundo tech.
+- A **Adalab**, por "conectarme" con mis compañeras de Bootcamp y por abrirme las puertas del mundo tech.
 - A las **IA**, por ser las mejores compañeras de código.
 - A toda la comunidad **OpenSource** por las herramientas que hacen esto posible.
 
