@@ -1,4 +1,4 @@
-# 🃏 Memory Game - Encontrar Parejas de Cartas
+# 🃏 Mirror Rush - Encontrar Parejas de Cartas
 
 Este es mi primer proyecto utilizando **React**, como parte del contenido del Módulo 3 del Bootcamp en Desarrollo Web Full Stack.
 
@@ -14,7 +14,7 @@ Se trata de un juego clásico de encontrar parejas de cartas en tableros de dist
 
 ---
 
-## ✨ Características Principales 
+## ✨ Características Principales
 
 - **🃏 Tablero**: El reto clásico de encontrar parejas.
 - **⚡ Niveles**: Existen 4 niveles de dificultad.
@@ -35,7 +35,7 @@ Se trata de un juego clásico de encontrar parejas de cartas en tableros de dist
 
 ---
 
-## 🎮 Reglas del juego: 
+## 🎮 Reglas del juego:
 
 1. **Inicio**: Escribe tu nombre de usuario en la página principal para comenzar.
 2. **El Reto**: Voltea 2 cartas por turno. Si coinciden, permanecen visibles; si no, se ocultan tras un breve instante.
@@ -98,14 +98,15 @@ Este proyecto ha sido desarrollado con la ayuda de **Gemini CLI**, **Copilot CLI
 
 Este proyecto es un "work in progress" constante. Actualmente estoy aprendiendo a construir el backend para conectarlo y hacerlo 100% funcional y persistente. Se aceptan comentarios, sugerencias y PRs.
 
-
 **Agradecimientos:**
+
 - A **Iván**, mi profesor, por su guía y su infinita curiosidad.
 - A **Adalab**, por abrirme las puertas del mundo tech.
 - A las **IA**, por ser las mejores compañeras de código.
 - A toda la comunidad **OpenSource** por las herramientas que hacen esto posible.
 
 ---
+
 ---
 
 _Si has tenido que mirar en Google el significado de alguna cosa, tranquila, no eres la única. Lo "breve, conciso y preciso" no van de la mano de "que lo entiendan también los juniors"._

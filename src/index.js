@@ -125,12 +125,12 @@ server.post("/api/memoryboard", async (req, res) => {
     try {
       const d = new Date(game_date);
       if (isNaN(d.getTime())) {
-        formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        formattedDate = new Date().toISOString().slice(0, 19).replace("T", " ");
       } else {
-        formattedDate = d.toISOString().slice(0, 19).replace('T', ' ');
+        formattedDate = d.toISOString().slice(0, 19).replace("T", " ");
       }
     } catch {
-      formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      formattedDate = new Date().toISOString().slice(0, 19).replace("T", " ");
     }
 
     conexion = await getConexion();
@@ -217,7 +217,7 @@ const runDBCleanup = async () => {
     conexion = await getConexion();
 
     const [difficulties] = await conexion.query(
-      "SELECT DISTINCT difficulty FROM game_ranking"
+      "SELECT DISTINCT difficulty FROM game_ranking",
     );
 
     const idsToKeep = [];
@@ -231,7 +231,7 @@ const runDBCleanup = async () => {
          WHERE LOWER(difficulty) = LOWER(?) 
          ORDER BY game_moves ASC, game_time ASC, game_date ASC, id ASC 
          LIMIT 10`,
-        [diffName]
+        [diffName],
       );
 
       topRecords.forEach((row) => idsToKeep.push(row.id));
@@ -246,7 +246,9 @@ const runDBCleanup = async () => {
       deletedRows = result.affectedRows;
     }
 
-    console.log(`🧹 Limpieza de BD realizada: ${deletedRows} partidas eliminadas.`);
+    console.log(
+      `🧹 Limpieza de BD realizada: ${deletedRows} partidas eliminadas.`,
+    );
     return deletedRows;
   } catch (error) {
     console.error("❌ Error en la limpieza de la BD:", error.message);
@@ -257,19 +259,62 @@ const runDBCleanup = async () => {
 };
 
 // DELETE GAME RANKING (MANTIENE SOLO TOP 10 POR NIVEL)
-server.delete(["/api/memoryboard", "/api/memoryboard/cleanup"], async (req, res) => {
+server.delete(
+  ["/api/memoryboard", "/api/memoryboard/cleanup"],
+  async (req, res) => {
+    try {
+      const deletedRows = await runDBCleanup();
+      res.status(200).json({
+        success: true,
+        message:
+          "Limpieza de base de datos realizada. Se conservaron los 10 mejores resultados por nivel.",
+        deletedRows,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+);
+// DELETE POR PLAYER_NAME (para borrar pruebas desde Postman)
+server.delete("/api/memoryboard/player/:player_name", async (req, res) => {
+  let conexion;
+
   try {
-    const deletedRows = await runDBCleanup();
+    const { player_name } = req.params;
+
+    if (!player_name || player_name.trim() === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Debes indicar un player_name válido",
+      });
+    }
+
+    conexion = await getConexion();
+
+    const deleteQuery = `
+      DELETE FROM game_ranking
+      WHERE player_name = ?;
+    `;
+
+    const [result] = await conexion.execute(deleteQuery, [player_name]);
+
     res.status(200).json({
       success: true,
-      message: "Limpieza de base de datos realizada. Se conservaron los 10 mejores resultados por nivel.",
-      deletedRows,
+      message: `Registros eliminados para player_name: ${player_name}`,
+      deletedRows: result.affectedRows,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: error.message,
     });
+  } finally {
+    if (conexion) await conexion.end();
   }
 });
 

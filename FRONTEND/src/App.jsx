@@ -5,6 +5,7 @@ import Ranking from "./components/Ranking";
 import MemoryBoard from "./components/MemoryBoard";
 import { GAME_VIEWS, DIFFICULTIES } from "./constants";
 import { rankingService } from "./services/rankingService";
+import Footer from "./components/Footer";
 
 export default function App() {
   const [view, setView] = useState(GAME_VIEWS.LANDING);
@@ -20,7 +21,7 @@ export default function App() {
         await rankingService.syncPendingToBackend();
         const difficulties = Object.values(DIFFICULTIES);
         await Promise.all(
-          difficulties.map((diff) => rankingService.getRanking(diff.name))
+          difficulties.map((diff) => rankingService.getRanking(diff.name)),
         );
         console.log("✅ Rankings precargados al arranque");
       } catch (error) {
@@ -37,17 +38,25 @@ export default function App() {
     setView(GAME_VIEWS.GAME);
   };
 
-  const handleShowRanking = async (count, time, finishedDifficulty, gameStartTime) => {
+  const handleShowRanking = async (
+    count,
+    time,
+    finishedDifficulty,
+    gameStartTime,
+  ) => {
     let difficultyToUse = finishedDifficulty || difficulty;
 
     if (typeof difficultyToUse === "object" && difficultyToUse !== null) {
       const match = Object.entries(DIFFICULTIES).find(
-        ([key, d]) => d.name.toUpperCase() === difficultyToUse.name?.toUpperCase()
+        ([key, d]) =>
+          d.name.toUpperCase() === difficultyToUse.name?.toUpperCase(),
       );
       if (match) difficultyToUse = match[0];
     } else if (typeof difficultyToUse === "string") {
       const match = Object.entries(DIFFICULTIES).find(
-        ([key, d]) => key.toUpperCase() === difficultyToUse.toUpperCase() || d.name.toUpperCase() === difficultyToUse.toUpperCase()
+        ([key, d]) =>
+          key.toUpperCase() === difficultyToUse.toUpperCase() ||
+          d.name.toUpperCase() === difficultyToUse.toUpperCase(),
       );
       if (match) difficultyToUse = match[0];
     }
@@ -73,11 +82,12 @@ export default function App() {
     setView(GAME_VIEWS.LANDING);
   };
 
-  const currentDifficultyObj = typeof difficulty === "string" ? DIFFICULTIES[difficulty] : difficulty;
+  const currentDifficultyObj =
+    typeof difficulty === "string" ? DIFFICULTIES[difficulty] : difficulty;
 
   return (
     <main>
-      <h1>Memory Game</h1>
+      <h1>Mirror Rush</h1>
 
       {view === GAME_VIEWS.LANDING && (
         <LandingPage
@@ -109,6 +119,12 @@ export default function App() {
           difficulty={currentDifficultyObj}
         />
       )}
+      <Footer
+        name="martamao"
+        github="https://github.com/martamao"
+        linkedin="https://www.linkedin.com/in/martaao/"
+        post="https://www.linkedin.com/posts/martaao_podr%C3%A1s-superar-todos-los-niveles-ugcPost-7472683908266917888-CRQa/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAET7VwkBswdxjt-_GwV3T-W6HPhePGuNrjM"
+      />
     </main>
   );
 }

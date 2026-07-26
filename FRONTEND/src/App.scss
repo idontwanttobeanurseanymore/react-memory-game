@@ -8,14 +8,20 @@
 }
 
 /* Base font scaling: scales up on large screens */
-html { font-size: clamp(14px, 1.2vw + 12px, 18px); }
+html {
+  font-size: clamp(14px, 1.2vw + 12px, 18px);
+}
 
 /* Global body / layout */
 body {
   color: var(--color-text-main);
-  background: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-secondary) 60%);
+  background: linear-gradient(
+    135deg,
+    var(--color-brand-primary) 0%,
+    var(--color-brand-secondary) 60%
+  );
   min-height: 100vh;
-  font-family: 'Press Start 2P', 'Crafty Girls', monospace, system-ui;
+  font-family: "Press Start 2P", "Crafty Girls", monospace, system-ui;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -23,11 +29,11 @@ body {
 
 /* Simple CRT / scanline overlay for retro feel (cheap) */
 body::after {
-  content: '';
+  content: "";
   pointer-events: none;
   position: fixed;
   inset: 0;
-  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   background-size: 100% 3px;
   mix-blend-mode: overlay;
 }
@@ -49,7 +55,7 @@ h1 {
   font-size: clamp(1.5rem, 5vw, 3rem);
   margin-bottom: clamp(1rem, 2vw, 1.5rem);
   color: var(--color-accent-mint);
-  text-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
 }
 
 /* Board flex container */
@@ -68,7 +74,7 @@ h1 {
 .table > .card {
   aspect-ratio: 1 / 1;
   /* Default card size (8-16 cards) */
-  flex: 0 0 calc(25% - 6px); 
+  flex: 0 0 calc(25% - 6px);
   min-width: 40px;
 }
 
@@ -85,24 +91,21 @@ h1 {
   }
   .table.grid-6x6 > .card {
     /* Reduce to 20% to make them smaller, maintaining 4 columns */
-    flex: 0 0 calc(21.5% - 4px); 
+    flex: 0 0 calc(21.5% - 4px);
     aspect-ratio: 1 / 1;
   }
 }
-
-
 
 /* Large screens (>= 1024px): 9x4 layout for Hard/Expert */
 @media screen and (min-width: 1024px) {
   .table.grid-4x4 {
     gap: 8px;
     padding: 8px;
-    width:50%
+    width: 50%;
   }
   .table.grid-4x4 > .card {
     flex: 0 0 calc(25% - 8px);
     //max-width: 80px;
-   
   }
   .table.grid-6x6 > .card {
     flex: 0 0 calc(11.11% - 8px); /* 9 columns */
@@ -110,7 +113,8 @@ h1 {
 }
 
 /* Make imported images look pixelated on scaling */
-img, .card img {
+img,
+.card img {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   max-width: 100%;
@@ -128,7 +132,7 @@ img, .card img {
   width: 100%;
   max-width: 500px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .resultSection {
@@ -157,6 +161,12 @@ img, .card img {
 
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
-  h1 { font-size: 22px; }
-  .table { width: 100%; gap: 8px; max-width: 420px; }
+  h1 {
+    font-size: 22px;
+  }
+  .table {
+    width: 100%;
+    gap: 8px;
+    max-width: 420px;
+  }
 }

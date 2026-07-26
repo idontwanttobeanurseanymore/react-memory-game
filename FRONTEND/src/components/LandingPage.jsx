@@ -20,7 +20,9 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
     const placeholders = ["_", "_", "_"];
     return (
       <div className="retroInputContainer">
-        <label htmlFor="playerNameInput" className="playerLabel">Player:</label>
+        <label htmlFor="playerNameInput" className="playerLabel">
+          Player:
+        </label>
         <div className="lettersContainer">
           {placeholders.map((_, index) => (
             <span key={index} className="retroLetter">
@@ -43,7 +45,7 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
 
   return (
     <div className="landingPage">
-      <p className="introQ">can you find all the pairs?</p>
+      <p className="introQ">can you make into the top 5?</p>
       {renderRetroInput()}
       <div className="difficultyButtons">
         <div className="buttonContainer">
@@ -68,4 +70,3 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
     </div>
   );
 }
-
