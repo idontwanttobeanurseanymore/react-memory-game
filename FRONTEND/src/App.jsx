@@ -123,7 +123,7 @@ export default function App() {
         name="martamao"
         github="https://github.com/martamao"
         linkedin="https://www.linkedin.com/in/martaao/"
-        post={POST}
+        post="https://www.linkedin.com/posts/martaao_podr%C3%A1s-superar-todos-los-niveles-ugcPost-7472683908266917888-CRQa/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAET7VwkBswdxjt-_GwV3T-W6HPhePGuNrjM"
       />
     </main>
   );
