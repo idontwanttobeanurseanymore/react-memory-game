@@ -55,14 +55,17 @@
 }
 a {
   text-decoration: none;
-  &:active {
+  &:link {
+    color: var(--color-text-main);
+  }
+  &:visited {
     text-decoration: none;
     color: var(--color-text-main);
   }
   &:hover {
     text-decoration: underline;
   }
-  &:visited {
+  &:active {
     text-decoration: none;
     color: var(--color-text-main);
   }
