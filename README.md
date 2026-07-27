@@ -1,4 +1,4 @@
-# 🃏🕹️ Mirror Rush
+<img width="2000" height="2000" alt="mirror-rush-logo" src="https://github.com/user-attachments/assets/11e33e43-32b0-4862-ba78-bc35e9597de2" />
 
 Imagina este proyecto como una **máquina recreativa arcade** de juego de memoria visual de buscar parejas de cartas en tableros de distintas dificultades.
 
