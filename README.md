@@ -1,4 +1,4 @@
-# 🃏 Mirror Rush - Encontrar Parejas de Cartas
+<img width="2000" height="2000" alt="mirror-rush-logo" src="https://github.com/user-attachments/assets/11e33e43-32b0-4862-ba78-bc35e9597de2" />
 
 Imagina este proyecto como una **máquina recreativa arcade** de juego de memoria visual de buscar parejas de cartas en tableros de distintas dificultades.
 
@@ -14,7 +14,7 @@ El objetivo del jugador es voltear cartas de dos en dos hasta **encontrar todas 
 
 ## ✨ Funcionalidades y Características Principales
 
-La aplicación ha sido desarrollada con un **diseño responsive** para poder disfrutar del juego en cualquier pantalla y un **diseño retro** con el objetivo de hacer un guiño a los años 90, etapa en la que está inspirada la aplicación y buscando una estética más personal y divertida.
+La aplicación ha sido desarrollada con un **diseño responsive** para poder disfrutar del juego en cualquier pantalla y un **diseño retro** con el objetivo de hacer un guiño a los años 90, etapa en la que está inspirada la aplicación buscando una estética más personal y divertida.
 
 ### **🚀 Pantalla de Inicio**
 
@@ -65,28 +65,62 @@ La aplicación ha sido desarrollada con un **diseño responsive** para poder dis
 5. **Ranking**: Al ganar, podrás ver tu puntuación y comprobar si has entrado en el Top 5 basándote en el número de movimientos y el tiempo empleado.
 
 ---
+## 🔄 ¿Cómo funciona el flujo de datos? 
 
+Imagina la información viajando a través de 4 etapas consecutivas:
+
+    [ 1. Entrada ]  --->  [ 2. Juego Activo ]  --->  [ 3. Guardado Doble ]  --->  [ 4. Consulta y Ranking ]
+     (Nombre + Nivel)     (Cronómetro +              (Navegador LocalStorage       (Filtrado y ordenación
+                           Movimientos)               + Base de Datos MySQL)         del Top 5 por nivel)
+
+1️⃣ **Preparación**:
+  - Eliges tu nombre (MAR) y tu nivel (EASY).
+  - El sistema registra la fecha y la hora exacta en la que empieza tu partida.
+
+2️⃣ **Durante la Partida**:
+  - Mientras juegas, un componente contador suma +1 cada vez que volteas un par de cartas y mantiene un temporizador en segundo plano.
+  - Cuando encuentras la última pareja, el sistema congela el tiempo y los movimientos finales.
+
+3️⃣ **Guardado Doble (Local + Servidor)**:
+  - **Guardado Instantáneo** (Local): La partida se anota en el LocalStorage (memoria rápida del navegador) para que la pantalla no sufra esperas ni congelaciones.
+  - **Guardado en la Base de Datos** (Servidor): Se envía un paquete de datos por internet a la Base de datos con:
+      - Nombre del jugador
+      - Movimientos realizados
+      - Tiempo total (en segundos)
+      - Dificultad
+      - Fecha y hora exacta
+  - **Si por algún motivo la conexión falla, se guarda en una carpeta de "pendientes"** para reenviarse automáticamente en cuanto vuelva internet.
+
+4️⃣ **Cálculo y Actualización en Pantalla del Ranking**:
+  - El servidor o la app analiza todas las partidas registradas.
+  - Criterio de Victoria: Se clasifican las partidas dando prioridad a quien haya hecho menos movimientos. En caso de empate en movimientos, gana quien haya tardado menos tiempo.
+  - La pantalla de ranking consulta esos datos ordenados, selecciona los 5 mejores de cada categoría y los pinta de forma clara en la tabla de puntuaciones.
+
+---
 ## 📦 Estructura del proyecto
 
 El código está organizado de forma modular para facilitar su mantenimiento y escalabilidad:
 
 ```text
+FRONTEND
+└── src/
+    ├── components/          # Componentes de la interfaz
+    │   ├── Button.jsx       # Botones interactivos retro
+    │   ├── Card.jsx         # Lógica visual de cada carta
+    │   ├── Counter.jsx      # Panel de movimientos, puntos y tiempo
+    │   ├── LandingPage.jsx  # Pantalla de bienvenida y registro
+    │   ├── Message.jsx      # Mensajes de feedback (Victoria/Derrota)
+    │   └── Ranking.jsx      # Tabla de puntuaciones persistente
+    ├── hooks/               # Lógica de negocio desacoplada
+    │   └── useMemoryGame.js # Hook principal que gestiona el estado del juego
+    ├── styles/              # Estilos modulares (SASS)
+    │   └── [Component].scss # Estilos específicos por componente
+    ├── App.jsx              # Orquestador principal de vistas
+    ├── App.scss             # Estilos globales y layouts
+    ├── constants.js         # Configuraciones y datos estáticos
+    └── main.jsx             # Punto de entrada de la aplicación
 src/
-├── components/          # Componentes de la interfaz
-│   ├── Button.jsx       # Botones interactivos retro
-│   ├── Card.jsx         # Lógica visual de cada carta
-│   ├── Counter.jsx      # Panel de movimientos, puntos y tiempo
-│   ├── LandingPage.jsx  # Pantalla de bienvenida y registro
-│   ├── Message.jsx      # Mensajes de feedback (Victoria/Derrota)
-│   └── Ranking.jsx      # Tabla de puntuaciones persistente
-├── hooks/               # Lógica de negocio desacoplada
-│   └── useMemoryGame.js # Hook principal que gestiona el estado del juego
-├── styles/              # Estilos modulares (SASS)
-│   └── [Component].scss # Estilos específicos por componente
-├── App.jsx              # Orquestador principal de vistas
-├── App.scss             # Estilos globales y layouts
-├── constants.js         # Configuraciones y datos estáticos
-└── main.jsx             # Punto de entrada de la aplicación
+└── index.js                 # Lógica Backend
 ```
 
 ---
