@@ -87,8 +87,6 @@ export default function App() {
 
   return (
     <main>
-      <h1>Mirror Rush</h1>
-
       {view === GAME_VIEWS.LANDING && (
         <LandingPage
           onStartGame={handleStartGame}

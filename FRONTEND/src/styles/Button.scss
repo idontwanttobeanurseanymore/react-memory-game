@@ -1,83 +1,57 @@
-.btn {
-  min-width: 120px;
-  height: 48px;
-  border: 2px solid var(--color-brand-primary);
-  outline: none;
+.button {
+  min-width: 7.5rem;
+  height: 3rem;
+  padding: 0.5rem 0.875rem;
+
+  border: 0.125rem solid var(--color-brand-primary);
+  border-radius: 0.25rem;
+
   color: var(--color-text-main);
-  background: var(--color-bg-card-default);
-  cursor: pointer;
-  position: relative;
-  z-index: 0;
-  border-radius: 4px;
+  background-color: var(--color-bg-card-default);
+
   font-family: "Press Start 2P", monospace;
-  font-size: clamp(12px, 0.9vw + 10px, 16px);
-  padding: 8px 14px;
-  text-transform: none;
-}
+  font-size: 0.75rem;
 
-/* keep a subtle glow but compatible with retro look */
-.btn:before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  z-index: -1;
-  border-radius: 4px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0)
-  );
-  opacity: 0;
-  transition: opacity 0.15s ease-in-out;
-}
+  cursor: pointer;
 
-.btn:hover:before {
-  opacity: 1;
-}
-
-.btn:after {
-  z-index: -1;
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  border-radius: 4px;
-}
-
-.btn.disabled {
-  cursor: not-allowed;
-  filter: grayscale(1);
-  opacity: 0.6;
-}
-
-.btn.disabled:before {
-  display: none;
-}
-
-.btn--nav {
-  min-width: 120px;
-  height: 40px;
-  background: var(--color-brand-primary);
-  border-color: var(--color-brand-primary);
-  font-size: clamp(10px, 0.7vw + 8px, 14px);
-  padding: 6px 10px;
-  margin-top: 10px;
-  align-self: flex-start;
-}
-
-@keyframes glowing {
-  0% {
-    background-position: 0 0;
+  &:hover {
+    filter: brightness(1.1);
   }
-  50% {
-    background-position: 400% 0;
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-brand-primary);
+    outline-offset: 0.25rem;
   }
-  100% {
-    background-position: 0 0;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    filter: grayscale(1);
+  }
+
+  &--primary {
+    // EMPEZAR
+  }
+
+  &--secondary {
+    // PUNTUACIONES
+  }
+
+  &--tertiary {
+    min-width: auto;
+    height: auto;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+
+    background: transparent;
+
+    font-size: 0.7rem;
+    text-decoration: underline;
+
+    &:hover {
+      filter: none;
+    }
   }
 }

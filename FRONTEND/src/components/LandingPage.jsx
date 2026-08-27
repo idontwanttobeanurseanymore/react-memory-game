@@ -1,72 +1,80 @@
 import { useState } from "react";
 import Button from "./Button";
-import { DIFFICULTIES } from "../constants";
 import "../styles/LandingPage.scss";
 
 export default function LandingPage({ onStartGame, onShowRanking }) {
-  const [playerName, setPlayerName] = useState("");
+  const [showInstructions, setShowInstructions] = useState(false);
 
-  const handleInputChange = (ev) => {
-    const value = ev.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-    if (value.length <= 3) {
-      setPlayerName(value);
-    }
+  const handleInstructions = () => {
+    setShowInstructions((prev) => !prev);
   };
 
-  const isButtonDisabled = playerName.length !== 3;
-
-  const renderRetroInput = () => {
-    const letters = playerName.split("");
-    const placeholders = ["_", "_", "_"];
-    return (
-      <div className="retroInputContainer">
-        <label htmlFor="playerNameInput" className="playerLabel">
-          Player:
-        </label>
-        <div className="lettersContainer">
-          {placeholders.map((_, index) => (
-            <span key={index} className="retroLetter">
-              {letters[index] || ""}
-            </span>
-          ))}
-        </div>
-        <input
-          id="playerNameInput"
-          type="text"
-          value={playerName}
-          onChange={handleInputChange}
-          className="hiddenInput"
-          maxLength={3}
-          autoFocus
-        />
-      </div>
-    );
+  const handleStart = () => {
+    onStartGame();
   };
 
   return (
-    <div className="landingPage">
-      <p className="introQ">can you make into the top 5?</p>
-      {renderRetroInput()}
-      <div className="difficultyButtons">
-        <div className="buttonContainer">
-          {Object.keys(DIFFICULTIES).map((levelKey) => (
-            <Button
-              key={levelKey}
-              text={DIFFICULTIES[levelKey].name}
-              btnName={`startBtn-${levelKey}`}
-              onBtnClick={() => onStartGame(playerName, levelKey)}
-              disabled={isButtonDisabled}
-              className={`btn--${levelKey.toLowerCase()}`}
-            />
-          ))}
+    <div className="landing-page">
+      <header className="landing-page__header">
+        <div className="landing-page__top">
+          <img
+            className="landing-page__logo"
+            src="/images/logo-mala-memoria.png"
+            alt="Mala Memoria"
+          />
+
+          <nav className="landing-page__navigation">
+            <ul className="landing-page__navigation-list">
+              <li className="landing-page__navigation-item">
+                <a href="#contacto">Contacto</a>
+              </li>
+
+              <li className="landing-page__navigation-item">
+                <a href="/registro">Iniciar sesión</a>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <Button
-          text="LEADERBOARD"
-          btnName="leaderboardBtn"
-          onBtnClick={onShowRanking}
-          className="btn--ranking"
-        />
-      </div>
+      </header>
+
+      <main className="landing-page__main">
+        <h1 className="landing-page__title">MALA MEMORIA</h1>
+
+        <p className="landing-page__subtitle">A ver cuánto recuerdas.</p>
+
+        <div className="landing-page__game-flow">
+          <div
+            className={`landing-page__instructions-container ${
+              showInstructions ? "is-open" : ""
+            }`}>
+            <button
+              className="landing-page__instructions-button"
+              onClick={handleInstructions}>
+              ¿CÓMO JUGAR?
+            </button>
+
+            {showInstructions && (
+              <section className="landing-page__instructions">
+                <p>Encuentra todas las parejas.</p>
+                <p>Recuerda dónde está cada carta.</p>
+                <p>Consigue hacerlo en el menor tiempo posible.</p>
+              </section>
+            )}
+          </div>
+
+          <Button text="EMPEZAR" variant="primary" onClick={handleStart} />
+        </div>
+
+        <a
+          className="landing-page__ranking"
+          href="#"
+          onClick={(event) => {
+            event.preventDefault();
+            onShowRanking();
+          }}>
+          MIRA QUIÉN TE HA GANADO
+        </a>
+      </main>
     </div>
   );
 }

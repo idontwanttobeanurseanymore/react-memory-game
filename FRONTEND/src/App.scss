@@ -7,166 +7,35 @@
   box-sizing: border-box;
 }
 
-/* Base font scaling: scales up on large screens */
 html {
-  font-size: clamp(14px, 1.2vw + 12px, 18px);
+  font-size: 16px;
 }
 
-/* Global body / layout */
 body {
+  min-height: 100vh;
+
   color: var(--color-text-main);
   background: linear-gradient(
     135deg,
     var(--color-brand-primary) 0%,
     var(--color-brand-secondary) 60%
   );
-  min-height: 100vh;
+
   font-family: "Press Start 2P", "Crafty Girls", monospace, system-ui;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   overflow-x: hidden;
 }
 
-/* Simple CRT / scanline overlay for retro feel (cheap) */
-body::after {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 100% 3px;
-  mix-blend-mode: overlay;
-}
-
-/* Base Mobile-First Layout */
-main {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: clamp(10px, 3vw, 20px);
-  width: 100%;
-  overflow-y: auto;
-}
-
-h1 {
-  text-align: center;
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  margin-bottom: clamp(1rem, 2vw, 1.5rem);
-  color: var(--color-accent-mint);
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
-}
-
-/* Board flex container */
-.table {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-}
-
-/* Card sizing (Mobile-First) */
-.table > .card {
-  aspect-ratio: 1 / 1;
-  /* Default card size (8-16 cards) */
-  flex: 0 0 calc(25% - 6px);
-  min-width: 40px;
-}
-
-/* Higher density (Hard/Expert - 6x6) */
-.table.grid-6x6 > .card {
-  flex: 0 0 calc(16.66% - 7px); /* Default (Larger screens) */
-}
-
-/* Mobile override for Hard/Expert: 4 columns, smaller cards to fit all 9 rows entirely on screen */
-@media screen and (max-width: 600px) {
-  .table.grid-6x6 {
-    gap: 4px;
-    padding: 4px;
-  }
-  .table.grid-6x6 > .card {
-    /* Reduce to 20% to make them smaller, maintaining 4 columns */
-    flex: 0 0 calc(21.5% - 4px);
-    aspect-ratio: 1 / 1;
-  }
-}
-
-/* Large screens (>= 1024px): 9x4 layout for Hard/Expert */
-@media screen and (min-width: 1024px) {
-  .table.grid-4x4 {
-    gap: 8px;
-    padding: 8px;
-    width: 50%;
-  }
-  .table.grid-4x4 > .card {
-    flex: 0 0 calc(25% - 8px);
-    //max-width: 80px;
-  }
-  .table.grid-6x6 > .card {
-    flex: 0 0 calc(11.11% - 8px); /* 9 columns */
-  }
-}
-
-/* Make imported images look pixelated on scaling */
-img,
-.card img {
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-.introQ {
-  color: var(--color-text-muted);
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.navContainer {
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  justify-content: center;
-}
-
-.resultSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.resultButtons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.rankingPlaceholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  margin-top: 3rem;
-  color: var(--color-text-muted);
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 600px) {
-  h1 {
-    font-size: 22px;
-  }
-  .table {
-    width: 100%;
-    gap: 8px;
-    max-width: 420px;
-  }
+button,
+input {
+  font: inherit;
 }
