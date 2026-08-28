@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "./Button";
 import "../styles/LandingPage.scss";
+import "../styles/Button.scss";
 
 export default function LandingPage({ onStartGame, onShowRanking }) {
   const [showInstructions, setShowInstructions] = useState(false);
@@ -30,7 +31,7 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
               </li>
 
               <li className="landing-page__navigation-item">
-                <a href="/registro">Iniciar sesión</a>
+                <a href="/registro"> Mi usuario</a>
               </li>
             </ul>
           </nav>
@@ -40,7 +41,7 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
       <main className="landing-page__main">
         <h1 className="landing-page__title">MALA MEMORIA</h1>
 
-        <p className="landing-page__subtitle">A ver cuánto recuerdas.</p>
+        <p className="landing-page__subtitle">A ver cuánto recuerdas</p>
 
         <div className="landing-page__game-flow">
           <div
@@ -50,14 +51,13 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
             <button
               className="landing-page__instructions-button"
               onClick={handleInstructions}>
-              ¿CÓMO JUGAR?
+              ¿COMO JUGAR?
             </button>
 
             {showInstructions && (
               <section className="landing-page__instructions">
-                <p>Encuentra todas las parejas.</p>
-                <p>Recuerda dónde está cada carta.</p>
-                <p>Consigue hacerlo en el menor tiempo posible.</p>
+                <p>Busca las parejas y no tardes</p>
+                <p>A VER QUE TAL SE TE DA</p>
               </section>
             )}
           </div>
@@ -72,7 +72,7 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
             event.preventDefault();
             onShowRanking();
           }}>
-          MIRA QUIÉN TE HA GANADO
+          <h2 className="ranking-cta__title"> Mira quién te ha ganado </h2>
         </a>
       </main>
     </div>
