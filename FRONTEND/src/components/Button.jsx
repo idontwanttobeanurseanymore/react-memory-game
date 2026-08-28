@@ -1,11 +1,11 @@
 import "../styles/Button.scss";
 
-export default function Button({ text, onClick, variant }) {
+export default function Button({ text, onClick, variant, disabled = false }) {
   return (
     <button
       className={`button button--${variant}`}
-      type="button"
-      onClick={onClick}>
+      onClick={onClick}
+      disabled={disabled}>
       {text}
     </button>
   );

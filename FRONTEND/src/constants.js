@@ -96,6 +96,7 @@ export const getBoardConfig = (difficulty) => {
 
 export const GAME_VIEWS = {
   LANDING: "landing",
+  START_GAME: "start-game",
   GAME: "game",
   RANKING: "ranking",
 };
@@ -104,6 +105,40 @@ export const RESET_ANIMATION_DURATION = 600;
 export const MATCH_DELAY = 1000;
 export const STORAGE_KEY = "memory_game_ranking";
 
+export const START_GAME_MESSAGES = [
+  "Hoy no hay excusas",
+  "Tú sabrás lo que te haces",
+  "No prometo que sea fácil",
+  "¿Preparado para liarla?",
+  "Que empiece el desastre",
+  "¿De verdad crees que puedes?",
+  "Vamos a comprobar esa memoria",
+];
+export const DIFFICULTY_MESSAGES = {
+  EASY: [
+    "¿Seguro que quieres ir por lo fácil?",
+    "Para empezar, no está mal",
+    "Hasta tu abuela podría",
+  ],
+
+  MEDIUM: [
+    "Bueno, ya vamos en serio",
+    "Aquí empieza lo bueno",
+    "A ver si te acuerdas",
+  ],
+
+  HARD: [
+    "Ah, te gusta sufrir",
+    "Luego no digas que no te avisamos",
+    "Esto ya no es para cualquiera",
+  ],
+
+  EXPERT: [
+    "¿Estás seguro de esto?",
+    "Esto va a doler",
+    "Buena suerte. La vas a necesitar",
+  ],
+};
 export const RESULT_MESSAGES = {
   MEMORY: [
     "¿Eso lo has memorizado tú?",

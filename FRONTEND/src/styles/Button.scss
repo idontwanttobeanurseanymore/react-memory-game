@@ -33,3 +33,32 @@
     text-decoration: underline;
   }
 }
+.button--easy,
+.button--easy-selected {
+  background: var(--color-diff-easy);
+  border-color: var(--color-diff-easy);
+}
+
+.button--medium,
+.button--medium-selected {
+  background: var(--color-diff-medium);
+  border-color: var(--color-diff-medium);
+}
+
+.button--hard,
+.button--hard-selected {
+  background: var(--color-diff-hard);
+  border-color: var(--color-diff-hard);
+}
+
+.button--expert,
+.button--expert-selected {
+  background: var(--color-diff-expert);
+  border-color: var(--color-diff-expert);
+}
+
+.button--disabled {
+  background: var(--color-bg-card-default);
+  border-color: var(--color-brand-primary);
+  opacity: 0.35;
+}

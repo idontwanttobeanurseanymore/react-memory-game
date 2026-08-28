@@ -62,7 +62,7 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
             )}
           </div>
 
-          <Button text="EMPEZAR" variant="primary" onClick={handleStart} />
+          <Button text="EMPEZAR" variant="primary" onClick={onStartGame} />
         </div>
 
         <a

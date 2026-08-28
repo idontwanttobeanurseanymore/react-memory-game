@@ -6,6 +6,7 @@ import MemoryBoard from "./components/MemoryBoard";
 import { GAME_VIEWS, DIFFICULTIES } from "./constants";
 import { rankingService } from "./services/rankingService";
 import Footer from "./components/Footer";
+import StartGame from "./components/StartGame";
 
 export default function App() {
   const [view, setView] = useState(GAME_VIEWS.LANDING);
@@ -30,6 +31,10 @@ export default function App() {
     };
     preloadRankings();
   }, []);
+
+  const handleStart = () => {
+    setView(GAME_VIEWS.START_GAME);
+  };
 
   const handleStartGame = (name, selectedDifficulty) => {
     setPlayerName(name);
@@ -89,11 +94,16 @@ export default function App() {
     <main>
       {view === GAME_VIEWS.LANDING && (
         <LandingPage
-          onStartGame={handleStartGame}
+          onStartGame={handleStart}
           onShowRanking={() => setView(GAME_VIEWS.RANKING)}
         />
       )}
-
+      {view === GAME_VIEWS.START_GAME && (
+        <StartGame
+          onStartGame={handleStartGame}
+          onBack={() => setView(GAME_VIEWS.LANDING)}
+        />
+      )}
       {view === GAME_VIEWS.GAME && difficulty && (
         <MemoryBoard
           key={`${typeof difficulty === "string" ? difficulty : difficulty?.name}-${gameKey}`}
