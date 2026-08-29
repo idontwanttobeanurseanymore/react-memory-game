@@ -1,0 +1,64 @@
+.login {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 2rem 1rem;
+}
+
+.login__main {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 3rem;
+
+  text-align: center;
+}
+
+.login__title {
+  margin: 0 0 2rem;
+}
+.login__subtitle {
+  color: var(--color-text-muted);
+}
+.login__message {
+  margin: 2rem 0 2rem 0;
+
+  color: var(--color-text-main);
+
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+.login__social-message {
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+.login__social-link,
+.login__social-link:visited,
+.login__social-link:hover,
+.login__social-link:active {
+  color: var(--color-brand-primary);
+  text-decoration: none;
+}
+.start-game__back {
+  margin-top: 1.5rem;
+
+  color: var(--color-text-main);
+  background: none;
+
+  border: none;
+
+  font-size: 0.6rem;
+
+  cursor: pointer;
+
+  text-decoration: underline;
+  text-decoration-color: var(--color-brand-primary);
+}

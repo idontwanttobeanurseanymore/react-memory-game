@@ -99,6 +99,7 @@ export const GAME_VIEWS = {
   START_GAME: "start-game",
   GAME: "game",
   RANKING: "ranking",
+  LOGIN: "login",
 };
 
 export const RESET_ANIMATION_DURATION = 600;

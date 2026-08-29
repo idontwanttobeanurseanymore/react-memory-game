@@ -3,7 +3,7 @@ import Button from "./Button";
 import "../styles/LandingPage.scss";
 import "../styles/Button.scss";
 
-export default function LandingPage({ onStartGame, onShowRanking }) {
+export default function LandingPage({ onStartGame, onShowRanking, onLogin }) {
   const [showInstructions, setShowInstructions] = useState(false);
 
   const handleInstructions = () => {
@@ -31,7 +31,14 @@ export default function LandingPage({ onStartGame, onShowRanking }) {
               </li>
 
               <li className="landing-page__navigation-item">
-                <a href="/registro"> Mi usuario</a>
+                <a
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    onLogin();
+                  }}>
+                  Mi usuario
+                </a>
               </li>
             </ul>
           </nav>

@@ -7,6 +7,7 @@ import { GAME_VIEWS, DIFFICULTIES } from "./constants";
 import { rankingService } from "./services/rankingService";
 import Footer from "./components/Footer";
 import StartGame from "./components/StartGame";
+import Login from "./components/Login";
 
 export default function App() {
   const [view, setView] = useState(GAME_VIEWS.LANDING);
@@ -96,12 +97,19 @@ export default function App() {
         <LandingPage
           onStartGame={handleStart}
           onShowRanking={() => setView(GAME_VIEWS.RANKING)}
+          onLogin={() => setView(GAME_VIEWS.LOGIN)}
         />
       )}
       {view === GAME_VIEWS.START_GAME && (
         <StartGame
           onStartGame={handleStartGame}
           onBack={() => setView(GAME_VIEWS.LANDING)}
+        />
+      )}
+      {view === GAME_VIEWS.LOGIN && (
+        <Login
+          onBack={handleBackToLanding}
+          post="https://www.linkedin.com/posts/martaao_memory-game-share-7487443531561693184-VYLJ/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAET7VwkBswdxjt-_GwV3T-W6HPhePGuNrjM"
         />
       )}
       {view === GAME_VIEWS.GAME && difficulty && (
