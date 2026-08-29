@@ -106,35 +106,28 @@ export const MATCH_DELAY = 1000;
 export const STORAGE_KEY = "memory_game_ranking";
 
 export const START_GAME_MESSAGES = [
-  "Hoy no hay excusas",
-  "Tú sabrás lo que te haces",
-  "No prometo que sea fácil",
-  "¿Preparado para liarla?",
-  "Que empiece el desastre",
-  "¿De verdad crees que puedes?",
-  "Vamos a comprobar esa memoria",
+  "HOY NO HAY EXCUSAS",
+  "NO PROMETO QUE SEA FACIL",
+  "QUE EMPIECE EL DESASTRE",
+  "¿DE VERDAD CREES QUE PUEDES?",
 ];
 export const DIFFICULTY_MESSAGES = {
-  EASY: [
-    "¿Seguro que quieres ir por lo fácil?",
-    "Para empezar, no está mal",
-    "Hasta tu abuela podría",
-  ],
+  EASY: ["¿Vas a ir por lo fácil?", "Para empezar, no está mal", "Cobarde"],
 
   MEDIUM: [
     "Bueno, ya vamos en serio",
     "Aquí empieza lo bueno",
-    "A ver si te acuerdas",
+    "Ni de coña clasificas",
   ],
 
   HARD: [
     "Ah, te gusta sufrir",
-    "Luego no digas que no te avisamos",
+    "Luego no digas que no te avisé",
     "Esto ya no es para cualquiera",
   ],
 
   EXPERT: [
-    "¿Estás seguro de esto?",
+    "Tú sabrás lo que te haces",
     "Esto va a doler",
     "Buena suerte. La vas a necesitar",
   ],

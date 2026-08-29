@@ -17,6 +17,7 @@
   &--primary {
     // EMPEZAR
     border: 1px solid black;
+    background: var(--color-btn-primary);
   }
 
   &--secondary {
@@ -34,31 +35,41 @@
   }
 }
 .button--easy,
-.button--easy-selected {
+.button--easy-selected,
+.button--easy-disabled {
   background: var(--color-diff-easy);
   border-color: var(--color-diff-easy);
 }
 
 .button--medium,
-.button--medium-selected {
+.button--medium-selected,
+.button--medium-disabled {
   background: var(--color-diff-medium);
   border-color: var(--color-diff-medium);
 }
 
 .button--hard,
-.button--hard-selected {
+.button--hard-selected,
+.button--hard-disabled {
   background: var(--color-diff-hard);
   border-color: var(--color-diff-hard);
 }
 
 .button--expert,
-.button--expert-selected {
+.button--expert-selected,
+.button--expert-disabled {
   background: var(--color-diff-expert);
   border-color: var(--color-diff-expert);
 }
 
 .button--disabled {
-  background: var(--color-bg-card-default);
-  border-color: var(--color-brand-primary);
+  border: 1px solid black;
+  background: var(--color-brand-primary);
+  opacity: 0.35;
+}
+.button--easy-disabled,
+.button--medium-disabled,
+.button--hard-disabled,
+.button--expert-disabled {
   opacity: 0.35;
 }

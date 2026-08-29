@@ -20,6 +20,7 @@ export default function StartGame({ onStartGame, onBack }) {
 
       if (value.length < 3) {
         setDifficulty("");
+        setDifficultyMessage("");
       }
     }
   };
@@ -50,7 +51,7 @@ export default function StartGame({ onStartGame, onBack }) {
       <h1 className="start-game__title">{startMessage}</h1>
 
       <div className="start-game__player">
-        <label htmlFor="playerName">JUGADOR:</label>
+        <label htmlFor="playerName">ELIGE TU NOMBRE</label>
 
         <input
           id="playerName"
@@ -77,18 +78,16 @@ export default function StartGame({ onStartGame, onBack }) {
                   ? `${levelKey.toLowerCase()}-selected`
                   : playerName.length === 3 && !difficulty
                     ? levelKey.toLowerCase()
-                    : "disabled"
+                    : `${levelKey.toLowerCase()}-disabled`
               }
             />
           ))}
         </div>
       </div>
-      {difficultyMessage && (
-        <p className="start-game__difficulty-message">{difficultyMessage}</p>
-      )}
+      <p className="start-game__difficulty-message">{difficultyMessage}</p>
       <Button
         text="EMPEZAR"
-        variant="primary"
+        variant={isStartDisabled ? "disabled" : "primary"}
         onClick={handleStart}
         disabled={isStartDisabled}
       />
