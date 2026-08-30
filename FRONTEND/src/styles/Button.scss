@@ -31,13 +31,16 @@
   }
 
   &--tertiary {
-    padding: 0;
-
+    // VOLVER
+    margin-top: 1.5rem;
+    color: var(--color-text-main);
+    background: none;
     border: none;
-    border-radius: 0;
-
-    font-size: 0.7rem;
+    font-family: inherit;
+    font-size: 0.6rem;
+    cursor: pointer;
     text-decoration: underline;
+    text-decoration-color: var(--color-brand-primary);
   }
 }
 .button--easy,

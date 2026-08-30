@@ -1,7 +1,7 @@
 import Button from "./Button";
 import "../styles/Login.scss";
 
-export default function Login({ onBack, post }) {
+export default function Login({ onBack, post, text }) {
   return (
     <div className="login">
       <main className="login__main">
@@ -26,9 +26,7 @@ export default function Login({ onBack, post }) {
             </a>
           </p>
         </section>
-        <button className="back-button" type="button" onClick={onBack}>
-          VOLVER
-        </button>
+        <Button text="VOLVER" onClick={onBack} variant="tertiary" />
       </main>
     </div>
   );

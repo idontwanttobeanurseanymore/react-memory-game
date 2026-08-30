@@ -1,27 +1,23 @@
 import { useEffect, useState } from "react";
 import "../styles/Ranking.scss";
 import Button from "./Button";
+import "../styles/Button.scss";
 import { DIFFICULTIES } from "../constants";
 import { rankingService } from "../services/rankingService";
 
 export default function Ranking({
   onBackToBoard,
   handleReset,
-  onBackToLanding,
   currentPlayerName,
   currentMoves,
   currentTime,
   difficulty,
+  rankingMode,
+  onShowGlobalRanking,
+  onShowPlayerRanking,
+  onBackToLanding,
 }) {
   const [rankingData, setRankingData] = useState({});
-  const MODES = {
-    GLOBAL: "GLOBAL",
-    PLAYER: "PLAYER",
-  };
-
-  const determineMode = (diff) => (diff ? MODES.PLAYER : MODES.GLOBAL);
-
-  const [rankingMode, setRankingMode] = useState(determineMode(difficulty));
 
   useEffect(() => {
     const loadRankings = async () => {
@@ -33,6 +29,7 @@ export default function Ranking({
         );
 
         const data = {};
+
         difficulties.forEach((diff, index) => {
           data[diff.name] = results[index];
         });
@@ -44,7 +41,7 @@ export default function Ranking({
     };
 
     loadRankings();
-  }, [difficulty?.name]);
+  }, [difficulty]);
 
   const formatTime = (seconds) => {
     const totalSeconds = Number(seconds);
@@ -60,27 +57,30 @@ export default function Ranking({
   const getSortedRanking = (levelName) => {
     return [...(rankingData[levelName] || [])]
       .sort((a, b) => a.moves - b.moves || a.time - b.time)
-      .slice(0, 5);
+      .slice(0, 10);
   };
 
   const renderTable = (levelName) => {
-    const sortedRanking = getSortedRanking(levelName);
+    const ranking = getSortedRanking(levelName);
+
     return (
-      <div key={levelName} className="table-container">
-        <h3>{levelName}</h3>
-        <table>
+      <section className="ranking__level" key={levelName}>
+        <h3 className="ranking__level-title">{levelName}</h3>
+
+        <table className="ranking__table">
           <thead>
             <tr>
-              <th>Rank</th>
-              <th>Player</th>
-              <th>Moves</th>
-              <th>Time</th>
+              <th>POS</th>
+              <th>JUGADOR</th>
+              <th>MOV.</th>
+              <th>TIEMPO</th>
             </tr>
           </thead>
+
           <tbody>
-            {sortedRanking.length > 0 ? (
-              sortedRanking.map((player, index) => (
-                <tr key={index}>
+            {ranking.length > 0 ? (
+              ranking.map((player, index) => (
+                <tr key={`${player.name}-${player.startTime}-${index}`}>
                   <td>{index + 1}</td>
                   <td>{player.name}</td>
                   <td>{player.moves}</td>
@@ -89,93 +89,74 @@ export default function Ranking({
               ))
             ) : (
               <tr>
-                <td colSpan="4">No records.</td>
+                <td colSpan="4">SIN PARTIDAS</td>
               </tr>
             )}
           </tbody>
         </table>
-      </div>
+      </section>
     );
   };
 
-  const renderActions = () => {
-    switch (rankingMode) {
-      case MODES.PLAYER:
-        return (
-          <div className="actions">
-            <Button
-              onBtnClick={() => setRankingMode(MODES.GLOBAL)}
-              text="SHOW ALL"
-              btnName="viewAllBtn"
-            />
-            {handleReset && (
-              <Button
-                onBtnClick={handleReset}
-                text="PLAY AGAIN"
-                btnName="backBtn"
-              />
-            )}
-            <Button
-              onBtnClick={onBackToLanding}
-              text="CHOOSE LEVEL"
-              btnName="goBackBtn"
-              className="btn--go-back"
-            />
-          </div>
-        );
-      case MODES.GLOBAL:
-        return (
-          <div className="actions">
-            {difficulty && (
-              <Button
-                onBtnClick={() => setRankingMode(MODES.PLAYER)}
-                text="SHOW MY RANKING"
-                btnName="viewAllBtn"
-              />
-            )}
-            {handleReset && (
-              <Button
-                onBtnClick={handleReset}
-                text="PLAY AGAIN"
-                btnName="playAgainGlobalBtn"
-              />
-            )}
-            <Button
-              onBtnClick={onBackToLanding}
-              text="CHOOSE LEVEL"
-              btnName="goBackBtn"
-              className="btn--go-back"
-            />
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+  const isPlayerRanking = rankingMode === "PLAYER";
 
   return (
-    <section className={`ranking ranking--${rankingMode.toLowerCase()}`}>
-      <h2>Top Players</h2>
+    <main className={`ranking ranking--${rankingMode.toLowerCase()}`}>
+      <header className="ranking__header">
+        <h2 className="ranking__title">RANKING</h2>
+      </header>
 
-      {rankingMode === MODES.PLAYER && (
-        <div className="current-stats">
-          <p>Your last game ({currentPlayerName}):</p>
-          <p>
-            <strong>{currentMoves} moves</strong> in{" "}
-            <strong>{formatTime(currentTime)}</strong>
-          </p>
-        </div>
+      {isPlayerRanking && (
+        <section className="ranking__current">
+          <p className="ranking__current-title">TU ÚLTIMA PARTIDA</p>
+
+          <p className="ranking__current-player">{currentPlayerName}</p>
+
+          <div className="ranking__current-stats">
+            <span>{currentMoves} MOVIMIENTOS</span>
+            <span>{formatTime(currentTime)}</span>
+          </div>
+        </section>
       )}
 
-      {rankingMode === MODES.GLOBAL ? (
-        <div className="all-rankings-grid">
-          {Object.values(DIFFICULTIES).map((diff) => renderTable(diff.name))}
-        </div>
-      ) : (
-        renderTable(difficulty?.name)
-      )}
+      <section className="ranking__content">
+        {isPlayerRanking
+          ? renderTable(difficulty?.name)
+          : Object.values(DIFFICULTIES).map((diff) => renderTable(diff.name))}
+      </section>
 
-      {renderActions()}
-    </section>
+      <nav className="ranking__actions">
+        {isPlayerRanking && (
+          <Button
+            text="VER TODO EL RANKING"
+            onClick={onShowGlobalRanking}
+            variant="secondary"
+          />
+        )}
+
+        {!isPlayerRanking && difficulty && currentPlayerName && (
+          <Button
+            text="VER MI RANKING"
+            onClick={onShowPlayerRanking}
+            variant="secondary"
+          />
+        )}
+
+        {handleReset && (
+          <Button text="¿OTRA RONDA?" onClick={handleReset} variant="primary" />
+        )}
+
+        {isPlayerRanking && (
+          <Button
+            text="VOLVER AL TABLERO"
+            onClick={onBackToBoard}
+            variant="tertiary"
+          />
+        )}
+        {!isPlayerRanking && !difficulty && (
+          <Button text="VOLVER" variant="tertiary" onClick={onBackToLanding} />
+        )}
+      </nav>
+    </main>
   );
 }

@@ -175,12 +175,11 @@ export default function MemoryBoard({
         </div>
 
         <div className="memory-board__navigation">
-          <button
-            className="back-button"
-            type="button"
-            onClick={onBackToStartGame}>
-            VOLVER
-          </button>
+          <Button
+            text="VOLVER"
+            onClick={onBackToStartGame}
+            variant="tertiary"
+          />
         </div>
       </div>
     </div>

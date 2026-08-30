@@ -16,6 +16,7 @@ export default function App() {
   const [startTime, setStartTime] = useState(null);
   const [gameStats, setGameStats] = useState({ count: 0, time: 0 });
   const [gameKey, setGameKey] = useState(0);
+  const [rankingMode, setRankingMode] = useState("GLOBAL");
 
   useEffect(() => {
     const preloadRankings = async () => {
@@ -44,27 +45,27 @@ export default function App() {
     setView(GAME_VIEWS.GAME);
   };
 
-  const handleShowRanking = async (
-    count,
-    time,
-    finishedDifficulty,
-    gameStartTime,
-  ) => {
+  const handleShowRanking = (count, time, finishedDifficulty) => {
     let difficultyToUse = finishedDifficulty || difficulty;
 
     if (typeof difficultyToUse === "object" && difficultyToUse !== null) {
       const match = Object.entries(DIFFICULTIES).find(
-        ([key, d]) =>
-          d.name.toUpperCase() === difficultyToUse.name?.toUpperCase(),
+        ([, d]) => d.name.toUpperCase() === difficultyToUse.name?.toUpperCase(),
       );
-      if (match) difficultyToUse = match[0];
+
+      if (match) {
+        difficultyToUse = match[0];
+      }
     } else if (typeof difficultyToUse === "string") {
       const match = Object.entries(DIFFICULTIES).find(
         ([key, d]) =>
           key.toUpperCase() === difficultyToUse.toUpperCase() ||
           d.name.toUpperCase() === difficultyToUse.toUpperCase(),
       );
-      if (match) difficultyToUse = match[0];
+
+      if (match) {
+        difficultyToUse = match[0];
+      }
     }
 
     if (difficultyToUse) {
@@ -72,6 +73,7 @@ export default function App() {
       setDifficulty(difficultyToUse);
     }
 
+    setRankingMode("PLAYER");
     setView(GAME_VIEWS.RANKING);
   };
 
@@ -85,18 +87,37 @@ export default function App() {
     setPlayerName("");
     setDifficulty(null);
     setStartTime(null);
+    setGameStats({ count: 0, time: 0 });
+    setRankingMode("GLOBAL");
     setView(GAME_VIEWS.LANDING);
   };
 
   const currentDifficultyObj =
     typeof difficulty === "string" ? DIFFICULTIES[difficulty] : difficulty;
 
+  const handleShowGlobalRanking = () => {
+    setRankingMode("GLOBAL");
+    setView(GAME_VIEWS.RANKING);
+  };
+  const handleShowLandingRanking = () => {
+    setPlayerName("");
+    setDifficulty(null);
+    setStartTime(null);
+    setGameStats({ count: 0, time: 0 });
+    setRankingMode("GLOBAL");
+    setView(GAME_VIEWS.RANKING);
+  };
+  const handleShowPlayerRanking = () => {
+    setRankingMode("PLAYER");
+    setView(GAME_VIEWS.RANKING);
+  };
+
   return (
     <main>
       {view === GAME_VIEWS.LANDING && (
         <LandingPage
           onStartGame={handleStart}
-          onShowRanking={() => setView(GAME_VIEWS.RANKING)}
+          onShowRanking={handleShowLandingRanking}
           onLogin={() => setView(GAME_VIEWS.LOGIN)}
         />
       )}
@@ -126,14 +147,17 @@ export default function App() {
 
       {view === GAME_VIEWS.RANKING && (
         <Ranking
-          key={currentDifficultyObj?.name}
+          key={`${rankingMode}-${currentDifficultyObj?.name || "global"}`}
+          rankingMode={rankingMode}
+          onShowGlobalRanking={handleShowGlobalRanking}
+          onShowPlayerRanking={handleShowPlayerRanking}
           onBackToBoard={difficulty ? () => setView(GAME_VIEWS.GAME) : null}
-          onBackToLanding={handleBackToLanding}
           handleReset={difficulty ? handlePlayAgain : undefined}
           currentPlayerName={playerName}
           currentMoves={gameStats.count}
           currentTime={gameStats.time}
           difficulty={currentDifficultyObj}
+          onBackToLanding={handleBackToLanding}
         />
       )}
       <Footer

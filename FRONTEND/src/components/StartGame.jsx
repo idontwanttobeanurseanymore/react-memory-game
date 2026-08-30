@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Button from "./Button";
+import "../styles/Button.scss";
 import {
   DIFFICULTIES,
   START_GAME_MESSAGES,
@@ -92,9 +93,7 @@ export default function StartGame({ onStartGame, onBack }) {
         disabled={isStartDisabled}
       />
 
-      <button className="back-button" type="button" onClick={onBack}>
-        VOLVER
-      </button>
+      <Button text="VOLVER" onClick={onBack} variant="tertiary" />
     </div>
   );
 }
