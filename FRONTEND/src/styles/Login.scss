@@ -27,38 +27,28 @@
   color: var(--color-text-muted);
 }
 .login__message {
+  display: flex;
+  flex-direction: column;
+
   margin: 2rem 0 2rem 0;
 
   color: var(--color-text-main);
 
   font-size: 0.8rem;
   line-height: 1.6;
+  gap: 1rem;
 }
 .login__social-message {
   color: var(--color-text-muted);
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   margin-bottom: 2rem;
-  line-height: 1.6;
+  line-height: 2;
 }
+
 .login__social-link,
 .login__social-link:visited,
 .login__social-link:hover,
 .login__social-link:active {
-  color: var(--color-brand-primary);
-  text-decoration: none;
-}
-.start-game__back {
-  margin-top: 1.5rem;
-
-  color: var(--color-text-main);
-  background: none;
-
-  border: none;
-
-  font-size: 0.6rem;
-
-  cursor: pointer;
-
   text-decoration: underline;
-  text-decoration-color: var(--color-brand-primary);
+  color: var(--color-text-muted);
 }

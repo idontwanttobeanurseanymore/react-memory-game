@@ -11,26 +11,31 @@ export default function Card({
   const isVisible = (isFlipped || isMatched) && !isResetting;
 
   return (
-    <>
-      <div
-        onClick={() => {
+    <div
+      className={`card ${isVisible ? "card--visible" : ""} ${
+        isMatched && !isResetting ? "card--matched" : ""
+      }`}
+      onClick={() => {
+        if (isResetting || isVisible) return;
+        onCardClick({ id, value });
+      }}
+      role="gridcell"
+      tabIndex={0}
+      aria-label={
+        isMatched && !isResetting
+          ? `Carta ${id}: pareja encontrada ${value}`
+          : isVisible
+            ? `Carta ${id}: ${value}`
+            : `Carta ${id}: oculta`
+      }
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
           if (isResetting || isVisible) return;
           onCardClick({ id, value });
-        }}
-        className={`card ${isVisible ? "backCard" : ""} ${isMatched && !isResetting ? "itsAMatch" : ""}`}
-        role="gridcell"
-        tabIndex="0"
-        aria-label={`Card ${id}: ${isMatched && !isResetting ? `Matched ${value}` : isVisible ? `Flipped ${value}` : 'Hidden'}`}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            if (isResetting || isVisible) return;
-            onCardClick({ id, value });
-          }
-        }}
-      >
-        <div className="front">​👀</div>
-        <div className="back">{value}</div>
-      </div>
-    </>
+        }
+      }}>
+      <span className="card__front">👀</span>
+      <span className="card__back">{value}</span>
+    </div>
   );
 }

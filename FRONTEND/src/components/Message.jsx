@@ -1,13 +1,28 @@
 import "../styles/Message.scss";
+import { RESULT_MESSAGES } from "../constants";
 
-export default function Message({ result, time, timeout, count, points }) {
-  if (timeout) return <p className="result">Time's up! Try again!</p>;
-  if (!result) return;
-  let textMessage;
-  if (time < 60) {
-    textMessage = "In less than a minute!";
-  } else if (time >= 60) {
-    textMessage = "Well done!";
+const getRandomMessage = (messages) => {
+  return messages[Math.floor(Math.random() * messages.length)];
+};
+
+export default function Message({ result, time, timeout }) {
+  if (timeout) {
+    return <p className="result">{getRandomMessage(RESULT_MESSAGES.BAD)}</p>;
   }
-  return <p className="result">{textMessage}</p>;
+
+  if (!result) return null;
+
+  let messageType;
+
+  if (time < 40) {
+    messageType = "SPEED";
+  } else if (time <= 60) {
+    messageType = "PAIRS";
+  } else {
+    messageType = "MEMORY";
+  }
+
+  return (
+    <p className="result">{getRandomMessage(RESULT_MESSAGES[messageType])}</p>
+  );
 }

@@ -1,30 +1,34 @@
-.counterSection {
+.counter {
+  width: 100%;
+
   display: flex;
-  gap: 15px;
   justify-content: center;
+  gap: 0.75rem;
+
+  margin-bottom: 0.5rem;
+}
+
+.counter__item {
+  min-width: 7.5rem;
+  padding: 0.5rem 0.75rem;
+
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  color: var(--color-text);
-  font-size: clamp(14px, 1.5vw + 10px, 22px);
-  font-weight: 600;
-  padding: 10px 0;
+  gap: 0.5rem;
+
+  background-color: #ffffff59;
+
+  border: 2px solid var(--color-border-main);
+  border-radius: 4px;
+
+  box-shadow: 2px 2px 0 var(--color-shadow-default);
 }
 
-.counterSection p {
-  margin: 0;
-  padding: 5px 10px;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 5px;
-  white-space: nowrap;
+.counter__label {
+  font-size: 0.5rem;
 }
 
-@media (max-width: 480px) {
-  .counterSection {
-    gap: 8px;
-    font-size: 14px;
-  }
-  
-  .counterSection p {
-    padding: 3px 6px;
-  }
+.counter__value {
+  font-size: 0.75rem;
 }

@@ -120,6 +120,7 @@ export default function App() {
           onShowRanking={handleShowRanking}
           playerName={playerName}
           startTime={startTime}
+          onBackToStartGame={() => setView(GAME_VIEWS.START_GAME)}
         />
       )}
 

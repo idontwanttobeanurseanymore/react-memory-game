@@ -7,23 +7,28 @@ export default function Login({ onBack, post }) {
       <main className="login__main">
         <h1 className="login__title">Mi Usuario</h1>
         <p className="login__subtitle">PROXIMAMENTE</p>
-        <p className="login__message">
-          Inicia sesión, guarda tus puntuaciones y comprueba si ya te han
-          quitado el puesto. Tu memoria puede fallar, pero tus records siempre
-          estarán aquí.
-        </p>
-        <p className="login__social-message">
-          Dime en{" "}
-          <a
-            className="login__social-link"
-            href={post}
-            target="_blank"
-            rel="noreferrer">
-            esta publicación
-          </a>{" "}
-          si quieres que me dé prisa en dejarte iniciar sesión.
-        </p>
-        <Button text="VOLVER" className="start-game__back" onClick={onBack} />
+        <section className="login__message">
+          <p>
+            Inicia sesión, guarda tus puntuaciones y comprueba si te han quitado
+            el puesto.
+          </p>
+          <p>Tu memoria puede fallar, pero tus records siempre estarán aquí.</p>
+        </section>
+        <section className="login__social-message">
+          <p>¿Tienes ganas?</p>
+          <p>
+            <a
+              className="login__social-link"
+              href={post}
+              target="_blank"
+              rel="noreferrer">
+              Aquí puedes decirme que me de prisa
+            </a>
+          </p>
+        </section>
+        <button className="back-button" type="button" onClick={onBack}>
+          VOLVER
+        </button>
       </main>
     </div>
   );

@@ -92,7 +92,7 @@ export default function StartGame({ onStartGame, onBack }) {
         disabled={isStartDisabled}
       />
 
-      <button className="start-game__back" type="button" onClick={onBack}>
+      <button className="back-button" type="button" onClick={onBack}>
         VOLVER
       </button>
     </div>

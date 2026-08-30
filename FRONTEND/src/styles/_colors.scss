@@ -8,17 +8,19 @@
   /* UI Base */
   --color-text-main: #0b0b0b;
   --color-text-muted: #3b3b3b;
-  --color-bg-card-default: #fff4f8;
-  --color-bg-card-face-down: #ffdfe8;
-  --color-bg-card-face-up: #ffece0;
   --color-border-main: #000000;
   --color-shadow-default: rgba(0, 0, 0, 0.45);
+  --color-bg-input: #fbcde9;
 
   /* Dificultades */
   --color-diff-easy: #88d498;
   --color-diff-medium: #fbc02d;
   --color-diff-hard: #f4511e;
   --color-diff-expert: #d81b60;
+
+  /* CARTAS */
+  --color-bg-card-face-up: #ffb3cf;
+  --color-bg-card-face-down: #f3e6ff;
 
   /* Ranking y Medallas */
   --color-ranking-highlight: #ffcc00;
@@ -29,4 +31,6 @@
 
   /* Botones */
   --color-btn-primary: #f87e38c6;
+  --color-btn-secondary: #c18ff0;
+  --color-border-secondary: #450c45;
 }

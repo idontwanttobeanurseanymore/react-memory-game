@@ -1,18 +1,10 @@
 export const DIFFICULTIES = {
-  /* 
-    PLAN FUTURO:
-    Para añadir niveles que no quepan en pantalla:
-    1. Añadir propiedad `minWidth` (ej: 800px) a cada nivel.
-    2. En MemoryBoard.jsx, añadir check:
-       if (window.innerWidth < difficulty.minWidth) { mostrar aviso }
-  */
   EASY: {
-    name: "Easy",
+    name: "de tranquis",
     cards: ["👽​​​", "🧟‍♀️", "👩🏻‍🚀", "🧑🏻‍💻", "🥷🏻​​", "🐒", "🦚", "🦭​"],
-    grid: "4x4",
   },
   MEDIUM: {
-    name: "Medium",
+    name: "normalito",
     cards: [
       "🌻",
       "🌵",
@@ -27,10 +19,9 @@ export const DIFFICULTIES = {
       "🌝",
       "🌞",
     ],
-    grid: "4x4",
   },
   HARD: {
-    name: "Hard",
+    name: "chungo",
     cards: [
       "🔵",
       "🔷",
@@ -40,21 +31,17 @@ export const DIFFICULTIES = {
       "💧",
       "🧢",
       "🚙",
-      "🛰️",
       "💎",
       "💙",
       "🧞",
       "🐳",
       "🌌",
       "👔",
-      "🦕",
-      "🪁",
       "👮",
     ],
-    grid: "6x6",
   },
   EXPERT: {
-    name: "Expert",
+    name: "imposible",
     cards: [
       "👨‍🍳",
       "👨‍🏫",
@@ -75,22 +62,21 @@ export const DIFFICULTIES = {
       "👷",
       "👮",
     ],
-    grid: "6x6",
   },
 };
 
 export const getBoardConfig = (difficulty) => {
   let config = DIFFICULTIES[difficulty];
+
   if (!config && typeof difficulty === "object" && difficulty !== null) {
     config = difficulty;
   }
+
   if (!config) return null;
-  const size = config.grid
-    .split("x")
-    .reduce((a, b) => parseInt(a) * parseInt(b), 1);
+
   return {
-    size: size,
-    cards: config.cards.slice(0, size / 2),
+    size: config.cards.length * 2,
+    cards: config.cards,
   };
 };
 
@@ -113,10 +99,10 @@ export const START_GAME_MESSAGES = [
   "¿DE VERDAD CREES QUE PUEDES?",
 ];
 export const DIFFICULTY_MESSAGES = {
-  EASY: ["¿Vas a ir por lo fácil?", "Para empezar, no está mal", "Cobarde"],
+  EASY: ["¿Vas a ir por lo fácil?", "Para empezar, no está mal", "Qué cobarde"],
 
   MEDIUM: [
-    "Bueno, ya vamos en serio",
+    "Esto se pone serio",
     "Aquí empieza lo bueno",
     "Ni de coña clasificas",
   ],
@@ -124,7 +110,7 @@ export const DIFFICULTY_MESSAGES = {
   HARD: [
     "Ah, te gusta sufrir",
     "Luego no digas que no te avisé",
-    "Esto ya no es para cualquiera",
+    "Esto no es para cualquiera",
   ],
 
   EXPERT: [
@@ -134,14 +120,61 @@ export const DIFFICULTY_MESSAGES = {
   ],
 };
 export const RESULT_MESSAGES = {
-  MEMORY: [
-    "¿Eso lo has memorizado tú?",
-    "Tu memoria pide vacaciones",
-    "Memoria: presente",
+  BAD: [
+    "¿Quieres intentarlo otra vez?",
+    "Eso ha dolido un poco",
+    "Las cartas te han ganado",
+    "Las parejas se escondían muy bien",
+    "Bueno… casi",
+    "No pasa nada",
+    "Tu memoria necesita refuerzo",
+    "Hoy no era el día",
+    "Tu cerebro estaba a otras cosas",
+    "Hemos tenido días mejores",
+    "Claramente no era tu día",
+    "Tu memoria ha dicho basta",
     "Memoria: ausente",
-    "Algo se te ha quedado",
-    "Tienes memoria. Creo",
-    "No ibas tan mal de memoria",
+  ],
+  SPEED: [
+    "¿Pero tú has visto las cartas?",
+    "Demasiado rápido",
+    "Vas con prisa",
+    "¿Tanta prisa tenías?",
+    "Eso ha sido sospechosamente rápido",
+    "Parpadeé y terminaste",
+    "Más rápido que mi WiFi",
+    "Velocidad: preocupante",
+    "¿Te persigue alguien?",
+    "Sin perder el tiempo",
+    "Llegaste sin aliento",
+    "Ni el cronómetro se lo cree",
+  ],
+  PAIRS: [
+    "Cupido estaría orgulloso",
+    "No ha quedado ni una suelta",
+    "Eso sí que es saber emparejar",
+    "Ni Tinder hace tantos matches",
+    "Has encontrado a toda la pandilla",
+    "Aquí nadie se ha quedado colgado",
+    "Todas juntitas. Qué bonito",
+    "Todas en su sitio. Milagro",
+    "Bueno, al menos sabes emparejar",
+    "No sabemos cómo, pero las has juntado",
+    "Todas juntas. Ahora déjalas tranquilas",
+    "Cupido puede descansar",
+    "El mercado de las parejas está cerrado",
+    "Tenemos parejas para rato",
+    "Todas las parejas localizadas",
+    "Esto parece una agencia matrimonial",
+    "Has juntado a todo el mundo",
+    "Aquí hay más matches que en Tinder",
+    "Las tenías todas fichadas",
+  ],
+  MEMORY: [
+    "Podría haber sido peor",
+    "Lo importante es participar",
+    "Bueno, al menos terminaste",
+    "Tu memoria pide vacaciones",
     "Tu memoria ha hecho lo que ha podido",
     "Tu cerebro estaba mirando",
     "Eso sí que lo recordabas",
@@ -150,58 +183,10 @@ export const RESULT_MESSAGES = {
     "La memoria no era el problema",
     "Hoy tu cerebro ha venido",
     "Tu memoria se ha presentado al examen",
+    "Nadie al volante",
   ],
-
-  PAIRS: [
-    "Por fin una pareja estable",
-    "Match",
-    "Hiciste match",
-    "Las parejas te quieren",
-    "Cupido estaría orgulloso",
-    "El amor triunfa",
-    "Una pareja menos soltera",
-    "Pareja encontrada",
-    "Eso sí que es saber emparejar",
-    "Ni Tinder hace tantos matches",
-    "Tu relación con las parejas va bien",
-    "Todas las parejas en su sitio",
-    "Aquí hay química",
-  ],
-
-  SPEED: [
-    "¿Pero tú has visto las cartas?",
-    "Demasiado rápido",
-    "Vas con prisa",
-    "¿Tenías tanta prisa?",
-    "Eso ha sido sospechosamente rápido",
-    "Parpadeé y terminaste",
-    "Más rápido que mi WiFi",
-    "Velocidad: preocupante",
-    "¿Te persigue alguien?",
-    "Sin perder el tiempo",
-    "Aquí hemos venido a correr",
-    "Ni el cronómetro se lo cree",
-  ],
-
-  BAD: [
-    "Bueno… casi",
-    "Podría haber sido peor",
-    "No pasa nada",
-    "Lo importante es participar",
-    "Tu memoria necesita refuerzo",
-    "Hoy no era el día",
-    "El cerebro estaba ocupado",
-    "Hemos tenido días mejores",
-    "¿Quieres intentarlo otra vez?",
-    "Eso ha dolido un poco",
-    "Las cartas te han ganado",
-    "Las parejas se escondían muy bien",
-    "Claramente no era tu día",
-    "Tu memoria ha dicho que no",
-    "Bueno, al menos terminaste",
-  ],
-
   GREAT: [
+    "No ibas tan mal de memoria",
     "Tenemos un cerebrito",
     "Qué barbaridad",
     "Vienes fuerte",

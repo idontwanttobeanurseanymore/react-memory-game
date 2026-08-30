@@ -1,7 +1,6 @@
 .button {
   min-width: 7.5rem;
   height: 3rem;
-  padding: 0.5rem 0.875rem;
 
   border: 0.125rem solid var(--color-brand-primary);
   border-radius: 0.25rem;
@@ -15,13 +14,20 @@
   cursor: pointer;
 
   &--primary {
-    // EMPEZAR
-    border: 1px solid black;
-    background: var(--color-btn-primary);
+    // EMPEZAR y JUGAR OTRA VEZ
+    background-color: var(--color-btn-primary);
+    color: var(--color-text-main);
+    padding: 0.5rem;
+    box-shadow: 3px 3px 0 var(--color-shadow-default);
   }
 
   &--secondary {
     // PUNTUACIONES
+    background-color: var(--color-btn-secondary);
+    color: var(--color-text-main);
+    padding: 0.5rem;
+    border: none;
+    box-shadow: 3px 3px 0 var(--color-border-secondary);
   }
 
   &--tertiary {

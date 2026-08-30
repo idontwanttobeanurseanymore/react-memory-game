@@ -1,0 +1,56 @@
+.memory-board {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 1rem;
+}
+
+.memory-board__counter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.memory-board__table {
+  width: calc(100% - 1rem);
+  max-width: 420px;
+
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  gap: 0.5rem;
+}
+
+.memory-board__footer {
+  width: 100%;
+  max-width: 420px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.memory-board__message {
+  min-height: 3rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.memory-board__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.memory-board__navigation {
+  align-self: flex-start;
+  margin-top: 1rem;
+}
