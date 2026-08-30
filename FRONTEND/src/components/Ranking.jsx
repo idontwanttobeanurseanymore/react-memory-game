@@ -4,7 +4,10 @@ import Button from "./Button";
 import "../styles/Button.scss";
 import { DIFFICULTIES } from "../constants";
 import { rankingService } from "../services/rankingService";
-
+const LEVEL_GROUPS = [
+  [DIFFICULTIES.EASY.name, DIFFICULTIES.MEDIUM.name],
+  [DIFFICULTIES.HARD.name, DIFFICULTIES.EXPERT.name],
+];
 export default function Ranking({
   onBackToBoard,
   handleReset,
@@ -18,6 +21,11 @@ export default function Ranking({
   onBackToLanding,
 }) {
   const [rankingData, setRankingData] = useState({});
+  const [rankingPage, setRankingPage] = useState(0);
+
+  const [selectedLevel, setSelectedLevel] = useState(
+    difficulty?.name || DIFFICULTIES.EASY.name,
+  );
 
   useEffect(() => {
     const loadRankings = async () => {
@@ -42,7 +50,17 @@ export default function Ranking({
 
     loadRankings();
   }, [difficulty]);
+  useEffect(() => {
+    if (difficulty?.name) {
+      setSelectedLevel(difficulty.name);
 
+      const page = LEVEL_GROUPS.findIndex((group) =>
+        group.includes(difficulty.name),
+      );
+
+      setRankingPage(page >= 0 ? page : 0);
+    }
+  }, [difficulty]);
   const formatTime = (seconds) => {
     const totalSeconds = Number(seconds);
 
@@ -119,10 +137,51 @@ export default function Ranking({
         </section>
       )}
 
+      {!isPlayerRanking && (
+        <nav className="ranking__tabs" aria-label="Seleccionar nivel">
+          {rankingPage === 1 && (
+            <button
+              type="button"
+              className="ranking__arrow"
+              onClick={() => {
+                setRankingPage(0);
+                setSelectedLevel(DIFFICULTIES.EASY.name);
+              }}
+              aria-label="Ver niveles anteriores">
+              ←
+            </button>
+          )}
+
+          {LEVEL_GROUPS[rankingPage].map((level) => (
+            <button
+              key={level}
+              type="button"
+              className={`ranking__tab ${
+                selectedLevel === level ? "ranking__tab--active" : ""
+              }`}
+              onClick={() => setSelectedLevel(level)}>
+              {level}
+            </button>
+          ))}
+
+          {rankingPage === 0 && (
+            <button
+              type="button"
+              className="ranking__arrow"
+              onClick={() => {
+                setRankingPage(1);
+                setSelectedLevel(DIFFICULTIES.HARD.name);
+              }}
+              aria-label="Ver más niveles">
+              →
+            </button>
+          )}
+        </nav>
+      )}
       <section className="ranking__content">
         {isPlayerRanking
           ? renderTable(difficulty?.name)
-          : Object.values(DIFFICULTIES).map((diff) => renderTable(diff.name))}
+          : renderTable(selectedLevel)}
       </section>
 
       <nav className="ranking__actions">
@@ -153,6 +212,7 @@ export default function Ranking({
             variant="tertiary"
           />
         )}
+
         {!isPlayerRanking && !difficulty && (
           <Button text="VOLVER" variant="tertiary" onClick={onBackToLanding} />
         )}
