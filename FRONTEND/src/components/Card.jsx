@@ -37,7 +37,7 @@ export default function Card({
       <span className="card__front">
         <img
           className="card__front-image"
-          src="/images/tarjeta-mala-memoria.png"
+          src="/tarjeta-mala-memoria.png"
           alt=""
         />
       </span>

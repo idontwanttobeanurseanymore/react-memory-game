@@ -37,6 +37,7 @@
 
 .card__front {
   background-color: var(--color-bg-card-face-down);
+  object-fit: cover;
   font-size: 1rem;
 }
 .card__front-image {
@@ -46,6 +47,7 @@
 }
 .card__back {
   background-color: var(--color-bg-card-face-up);
+  object-fit: cover;
   font-size: 70cqi;
   transform: rotateY(180deg);
 }

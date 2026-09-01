@@ -19,7 +19,7 @@ export default function LandingPage({ onStartGame, onShowRanking, onLogin }) {
       <header className="landing-page__header">
         <img
           className="landing-page__logo"
-          src="/images/logo-mala-memoria.png"
+          src="/logo-mala-memoria.png"
           alt="Mala Memoria"
         />
 
