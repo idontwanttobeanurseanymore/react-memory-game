@@ -41,6 +41,7 @@ export default function StartGame({ onStartGame, onBack }) {
   };
 
   const isStartDisabled = playerName.length !== 3 || !difficulty;
+  const isDifficultyDisabled = playerName.length !== 3;
 
   const getRandomMessage = (messages) => {
     return messages[Math.floor(Math.random() * messages.length)];
@@ -50,50 +51,51 @@ export default function StartGame({ onStartGame, onBack }) {
   return (
     <div className="start-game">
       <h1 className="start-game__title">{startMessage}</h1>
+      <div className="start-game__board">
+        <div className="start-game__player">
+          <label htmlFor="playerName">ELIGE 3 LETRAS</label>
 
-      <div className="start-game__player">
-        <label htmlFor="playerName">ELIGE TU NOMBRE</label>
+          <input
+            id="playerName"
+            className="start-game__input"
+            type="text"
+            value={playerName}
+            onChange={handleInputChange}
+            maxLength={3}
+            autoFocus
+          />
+        </div>
 
-        <input
-          id="playerName"
-          className="start-game__input"
-          type="text"
-          value={playerName}
-          onChange={handleInputChange}
-          maxLength={3}
-          autoFocus
+        <div className="start-game__difficulty">
+          <p className="start-game__difficulty-title">ELIGE NIVEL</p>
+
+          <div className="start-game__difficulty-buttons">
+            {Object.entries(DIFFICULTIES).map(([levelKey, level]) => (
+              <Button
+                key={levelKey}
+                text={level.name}
+                onClick={() => handleDifficultyChange(levelKey)}
+                variant={
+                  difficulty === levelKey
+                    ? `${levelKey.toLowerCase()}-selected`
+                    : playerName.length === 3 && !difficulty
+                      ? levelKey.toLowerCase()
+                      : `${levelKey.toLowerCase()}-disabled`
+                }
+                disabled={isDifficultyDisabled}
+              />
+            ))}
+          </div>
+        </div>
+        <p className="start-game__difficulty-message">{difficultyMessage}</p>
+        <Button
+          text="AL TURRON"
+          variant={isStartDisabled ? "disabled" : "primary"}
+          onClick={handleStart}
+          disabled={isStartDisabled}
         />
       </div>
-
-      <div className="start-game__difficulty">
-        <p className="start-game__difficulty-title">ELIGE DIFICULTAD</p>
-
-        <div className="start-game__difficulty-buttons">
-          {Object.entries(DIFFICULTIES).map(([levelKey, level]) => (
-            <Button
-              key={levelKey}
-              text={level.name}
-              onClick={() => handleDifficultyChange(levelKey)}
-              variant={
-                difficulty === levelKey
-                  ? `${levelKey.toLowerCase()}-selected`
-                  : playerName.length === 3 && !difficulty
-                    ? levelKey.toLowerCase()
-                    : `${levelKey.toLowerCase()}-disabled`
-              }
-            />
-          ))}
-        </div>
-      </div>
-      <p className="start-game__difficulty-message">{difficultyMessage}</p>
-      <Button
-        text="EMPEZAR"
-        variant={isStartDisabled ? "disabled" : "primary"}
-        onClick={handleStart}
-        disabled={isStartDisabled}
-      />
-
-      <Button text="VOLVER" onClick={onBack} variant="tertiary" />
+      <Button text="HE CAMBIADO DE IDEA" onClick={onBack} variant="tertiary" />
     </div>
   );
 }

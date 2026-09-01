@@ -34,7 +34,13 @@ export default function Card({
           onCardClick({ id, value });
         }
       }}>
-      <span className="card__front">👀</span>
+      <span className="card__front">
+        <img
+          className="card__front-image"
+          src="/images/tarjeta-mala-memoria.png"
+          alt=""
+        />
+      </span>
       <span className="card__back">{value}</span>
     </div>
   );

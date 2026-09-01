@@ -3,7 +3,7 @@
   height: 3rem;
 
   border: 0.125rem solid var(--color-brand-primary);
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 
   color: var(--color-text-main);
   background-color: var(--color-bg-card-default);
@@ -16,6 +16,7 @@
   &--primary {
     // EMPEZAR y JUGAR OTRA VEZ
     background-color: var(--color-btn-primary);
+    min-width: 10rem;
     color: var(--color-text-main);
     padding: 0.5rem;
     box-shadow: 3px 3px 0 var(--color-shadow-default);
@@ -32,48 +33,51 @@
 
   &--tertiary {
     // VOLVER
-    margin-top: 1.5rem;
+
     color: var(--color-text-main);
     background: none;
     border: none;
-    font-family: inherit;
-    font-size: 0.6rem;
+    font-size: 12px;
     cursor: pointer;
     text-decoration: underline;
-    text-decoration-color: var(--color-brand-primary);
+    text-decoration-color: var(--color-btn-tertiary);
+    text-decoration-thickness: 2px;
   }
 }
 .button--easy,
 .button--easy-selected,
 .button--easy-disabled {
   background: var(--color-diff-easy);
-  border-color: var(--color-diff-easy);
+  border: 2px solid var(--color-border-easy);
 }
 
 .button--medium,
 .button--medium-selected,
 .button--medium-disabled {
   background: var(--color-diff-medium);
-  border-color: var(--color-diff-medium);
+  border: 2px solid var(--color-border-medium);
 }
 
 .button--hard,
 .button--hard-selected,
 .button--hard-disabled {
   background: var(--color-diff-hard);
-  border-color: var(--color-diff-hard);
+  border: 2px solid var(--color-border-hard);
 }
 
 .button--expert,
 .button--expert-selected,
 .button--expert-disabled {
   background: var(--color-diff-expert);
-  border-color: var(--color-diff-expert);
+  border: 2px solid var(--color-border-expert);
 }
 
 .button--disabled {
-  border: 1px solid black;
-  background: var(--color-brand-primary);
+  background-color: var(--color-btn-primary);
+  min-width: 10rem;
+  color: var(--color-text-main);
+  padding: 0.5rem;
+  box-shadow: 3px 3px 0 var(--color-shadow-default);
   opacity: 0.35;
 }
 .button--easy-disabled,

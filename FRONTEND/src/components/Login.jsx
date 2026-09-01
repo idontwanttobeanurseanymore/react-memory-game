@@ -5,7 +5,7 @@ export default function Login({ onBack, post, text }) {
   return (
     <div className="login">
       <main className="login__main">
-        <h1 className="login__title">Mi Usuario</h1>
+        <h1 className="login__title">Iniciar Sesion</h1>
         <p className="login__subtitle">PROXIMAMENTE</p>
         <section className="login__message">
           <p>
@@ -22,11 +22,11 @@ export default function Login({ onBack, post, text }) {
               href={post}
               target="_blank"
               rel="noreferrer">
-              Aquí puedes decirme que me de prisa
+              Dime que me de prisa
             </a>
           </p>
         </section>
-        <Button text="VOLVER" onClick={onBack} variant="tertiary" />
+        <Button text="NO, GRACIAS" onClick={onBack} variant="tertiary" />
       </main>
     </div>
   );

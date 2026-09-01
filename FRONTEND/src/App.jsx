@@ -113,7 +113,7 @@ export default function App() {
   };
 
   return (
-    <main>
+    <main className="app">
       {view === GAME_VIEWS.LANDING && (
         <LandingPage
           onStartGame={handleStart}

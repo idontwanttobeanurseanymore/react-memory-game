@@ -13,17 +13,23 @@
   --color-bg-input: #fbcde9;
 
   /* Dificultades */
-  --color-diff-easy: #88d498;
-  --color-diff-medium: #fbc02d;
-  --color-diff-hard: #f4511e;
-  --color-diff-expert: #d81b60;
+  --color-diff-easy: #88d498b4;
+  --color-diff-medium: #fbc12dba;
+  --color-diff-hard: #f4501eb2;
+  --color-diff-expert: #d81b60ae;
+
+  --color-border-easy: #88d498;
+  --color-border-medium: #fbc02d;
+  --color-border-hard: #f4511e;
+  --color-border-expert: #d81b60;
 
   /* CARTAS */
-  --color-bg-card-face-up: #ffb3cf;
-  --color-bg-card-face-down: #f3e6ff;
+  --color-bg-card-face-up: #dc5073;
+  --color-bg-card-face-down: #50b9dc;
+  --color-card-matched: #50dc73;
 
   /* Ranking y Medallas */
-  --color-ranking-highlight: #ffcc00;
+  --color-ranking-highlight: #ffcc00bd;
   --color-ranking-bg: rgba(0, 0, 0, 0.7);
   --color-medal-gold: gold;
   --color-medal-silver: silver;
@@ -31,6 +37,13 @@
 
   /* Botones */
   --color-btn-primary: #f87e38c6;
-  --color-btn-secondary: #c18ff0;
+  --color-border-primary: #fc5c00c6;
+  --color-btn-secondary: #4fb7dd;
   --color-border-secondary: #450c45;
+  --color-btn-tertiary: #f87e38c6;
+  --color-border-tertiary: #f87e38c6;
+
+  /*INPUT*/
+  --color-bg-input: #cf9bcf;
+  --color-border-input: #450c45;
 }

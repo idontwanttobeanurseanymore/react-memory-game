@@ -17,32 +17,30 @@ export default function LandingPage({ onStartGame, onShowRanking, onLogin }) {
   return (
     <div className="landing-page">
       <header className="landing-page__header">
-        <div className="landing-page__top">
-          <img
-            className="landing-page__logo"
-            src="/images/logo-mala-memoria.png"
-            alt="Mala Memoria"
-          />
+        <img
+          className="landing-page__logo"
+          src="/images/logo-mala-memoria.png"
+          alt="Mala Memoria"
+        />
 
-          <nav className="landing-page__navigation">
-            <ul className="landing-page__navigation-list">
-              <li className="landing-page__navigation-item">
-                <a href="#contacto">Contacto</a>
-              </li>
+        <nav className="landing-page__navigation">
+          <ul className="landing-page__navigation-list">
+            <li className="landing-page__navigation-item">
+              <a href="#contacto">Contacto</a>
+            </li>
 
-              <li className="landing-page__navigation-item">
-                <a
-                  href="#"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    onLogin();
-                  }}>
-                  Mi usuario
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+            <li className="landing-page__navigation-item">
+              <a
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onLogin();
+                }}>
+                Iniciar Sesión
+              </a>
+            </li>
+          </ul>
+        </nav>
       </header>
 
       <main className="landing-page__main">
@@ -55,16 +53,15 @@ export default function LandingPage({ onStartGame, onShowRanking, onLogin }) {
             className={`landing-page__instructions-container ${
               showInstructions ? "is-open" : ""
             }`}>
-            <button
-              className="landing-page__instructions-button"
-              onClick={handleInstructions}>
-              ¿COMO JUGAR?
-            </button>
-
+            <div className="landing-page__instructions-button">
+              <span>¿</span>
+              <button onClick={handleInstructions}>COMO JUGAR</button>
+              <span>?</span>
+            </div>
             {showInstructions && (
               <section className="landing-page__instructions">
-                <p>Busca las parejas y no tardes</p>
-                <p>A VER QUE TAL SE TE DA</p>
+                <p>Busca las parejas, no tardes</p>
+                <p>y ya veremos qué tal se te da</p>
               </section>
             )}
           </div>

@@ -88,9 +88,9 @@ export default function Ranking({
         <table className="ranking__table">
           <thead>
             <tr>
-              <th>POS</th>
+              <th></th>
               <th>JUGADOR</th>
-              <th>MOV.</th>
+              <th>MOVIMIENTOS</th>
               <th>TIEMPO</th>
             </tr>
           </thead>
@@ -119,9 +119,9 @@ export default function Ranking({
   const isPlayerRanking = rankingMode === "PLAYER";
 
   return (
-    <main className={`ranking ranking--${rankingMode.toLowerCase()}`}>
+    <section className={`ranking ranking--${rankingMode.toLowerCase()}`}>
       <header className="ranking__header">
-        <h2 className="ranking__title">RANKING</h2>
+        <h2 className="ranking__title">CLASIFICACION</h2>
       </header>
 
       {isPlayerRanking && (
@@ -214,9 +214,13 @@ export default function Ranking({
         )}
 
         {!isPlayerRanking && !difficulty && (
-          <Button text="VOLVER" variant="tertiary" onClick={onBackToLanding} />
+          <Button
+            text="SALIR DE AQUI"
+            variant="tertiary"
+            onClick={onBackToLanding}
+          />
         )}
       </nav>
-    </main>
+    </section>
   );
 }

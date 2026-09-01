@@ -1,25 +1,32 @@
 .start-game {
   width: 100%;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+.start-game > .button--tertiary {
+  height: auto;
+  margin: 2rem 0 0 0;
+}
+// TÍTULO
+.start-game__title {
+  font-size: 20px;
+  padding: 1.5rem 0 1.5rem 0;
+  text-align: center;
+  letter-spacing: 4px;
+  line-height: 1.4;
+}
+.start-game__board {
+  padding: 2rem 0;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  padding: 1rem 2rem;
-
   text-align: center;
 }
-
-// TÍTULO
-
-.start-game__title {
-  font-size: 16px;
-  margin: 2rem 0;
-  text-align: center;
-  letter-spacing: 4px;
-  line-height: 1.3;
-}
-
 // JUGADOR
 
 .start-game__player {
@@ -27,7 +34,7 @@
   flex-direction: column;
   align-items: center;
 
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .start-game__player label {
@@ -36,16 +43,16 @@
 }
 
 .start-game__input {
-  width: 8rem;
-  height: 3.5rem;
+  width: 6rem;
+  height: 2.5rem;
 
   padding: 0.5rem;
 
   color: var(--color-text-main);
   background: var(--color-bg-input);
 
-  border: 1px solid var(--color-brand-primary);
-  border-radius: 4px;
+  border: 1px solid var(--color-border-input);
+  border-radius: 6px;
 
   font-size: 1.2rem;
   text-align: center;
@@ -59,10 +66,10 @@
   align-items: center;
 
   width: 100%;
-
-  margin-bottom: 1rem;
 }
-
+.start-game__board > button {
+  min-width: 10rem;
+}
 .start-game__difficulty-title {
   margin-bottom: 1rem;
   font-size: 0.65rem;
@@ -72,15 +79,14 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-
-  width: min(100%, 20rem);
+}
+.start-game__difficulty-buttons > button {
+  min-width: 10rem;
+  border-radius: 10px;
 }
 //MENSAJE
 
 .start-game__difficulty-message {
-  width: min(100%, 20rem);
-  min-height: 1.5rem;
-
   margin: 0.75rem 0;
 
   display: flex;
@@ -90,9 +96,4 @@
   font-size: 0.6rem;
   line-height: 1.6;
   text-align: center;
-}
-// BOTÓN EMPEZAR
-
-.start-game > .button {
-  margin-top: 0.5rem;
 }

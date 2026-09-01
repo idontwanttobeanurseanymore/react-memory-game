@@ -126,18 +126,20 @@ export default function MemoryBoard({
       </div>
 
       <div className="memory-board__footer">
-        <div className="memory-board__message">
-          {timeout && <Message timeout={timeout} />}
+        {(timeout || result) && (
+          <div className="memory-board__message">
+            {timeout && <Message timeout={timeout} />}
 
-          {result && (
-            <Message
-              result={result}
-              count={count}
-              points={points}
-              time={elapsedTime}
-            />
-          )}
-        </div>
+            {result && (
+              <Message
+                result={result}
+                count={count}
+                points={points}
+                time={elapsedTime}
+              />
+            )}
+          </div>
+        )}
 
         <div className="memory-board__actions">
           {timeout && (
@@ -176,7 +178,7 @@ export default function MemoryBoard({
 
         <div className="memory-board__navigation">
           <Button
-            text="VOLVER"
+            text="SALIR DE AQUÍ"
             onClick={onBackToStartGame}
             variant="tertiary"
           />
