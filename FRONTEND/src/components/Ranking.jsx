@@ -142,13 +142,13 @@ export default function Ranking({
           {rankingPage === 1 && (
             <button
               type="button"
-              className="ranking__arrow"
+              className="ranking__arrow ranking__arrow-left"
               onClick={() => {
                 setRankingPage(0);
                 setSelectedLevel(DIFFICULTIES.EASY.name);
               }}
               aria-label="Ver niveles anteriores">
-              ←
+              <p className="">⬅</p>
             </button>
           )}
 
@@ -163,17 +163,16 @@ export default function Ranking({
               {level}
             </button>
           ))}
-
           {rankingPage === 0 && (
             <button
               type="button"
-              className="ranking__arrow"
+              className="ranking__arrow ranking__arrow-right"
               onClick={() => {
                 setRankingPage(1);
                 setSelectedLevel(DIFFICULTIES.HARD.name);
               }}
               aria-label="Ver más niveles">
-              →
+              <p className="">➡</p>
             </button>
           )}
         </nav>
